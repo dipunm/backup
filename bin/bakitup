@@ -1,0 +1,131 @@
+#!/bin/bash
+
+# built in commands:
+# cd, pushd, popd, read, exit, echo, . (source)
+
+# executables in use:
+# date, tar, rsync, sort, touch, mkdir, cat, rm
+
+: ${HOME:=`cd ~ && pwd`}
+: ${BACKUP_USR_ROOT:="$HOME/.backup"}
+config_dir="$BACKUP_USR_ROOT/conf"
+config="$config_dir/main.conf"
+recipe_dir="$BACKUP_USR_ROOT/recipes"
+recipe_data="$BACKUP_USR_ROOT/data"
+
+if [ $SUDO_USER ]; then
+    >&2 echo "Sudo detected. You must run this program without elevated priviliges. Aborting..."
+    exit 1
+fi
+
+if [ ! -d $BACKUP_USR_ROOT ]; then
+	>&2 echo "Unable to find backup configuration directory: $BACKUP_USR_ROOT. Aborting...";
+	exit 1;
+fi
+
+if [ ! -f $config ]; then
+	>&2 echo "Unable to find backup configuration $config. Aborting...";
+	exit 1;
+fi
+
+. $config
+
+init_tmpd() {
+	tmp_dname=".$(date +'%s')"
+	tmpd="$HOME/$tmp_dname"
+	rm -rf $tmpd
+	mkdir $tmpd
+}
+
+backup() {
+	init_tmpd
+	: ${OUTPUT_DIR:=$HOME}
+	cp_dir="$BACKUP_USR_ROOT/conf"
+	if [ ! -f $cp_dir/copy.list ]; then
+		>&2 echo "Unable to find file: $cp_dir/copy.list. Aborting...";
+		exit 1;
+	fi
+
+	if [ ! -f $OUTPUT_DIR ]; then
+		>&2 echo "Unable to find output directory $OUTPUT_DIR. Please ensure that the directory already exists.";
+		exit 1;
+	fi
+
+	# Starting.
+	echo "Running backup tasks..."
+	for recipe in "${BACKUP_TASKS[@]}"
+	do
+		if [ -f $recipe_dir/$recipe/backup.sh ]; then
+			(
+				recipe_data="$recipe_data/$recipe"
+				mkdir $recipe_data
+				. $recipe_dir/$recipe/backup.sh
+			)
+		else
+			read -r -p $'Unable to find backup task for recipe: \'$recipe\'. Do you want to abort backup? [y/N]\n' response
+			case "$response" in
+				[yY][eE][sS]|[yY])
+					exit 1
+					;;
+				*)	
+					echo "Continuing..."
+					;;
+			esac
+		fi
+	done
+
+	# Create a concatenated list of files to copy
+	echo "Building list of files to copy..."
+	touch $tmpd/copy.list
+	cat $cp_dir/copy.list > $tmpd/copy.list
+	for file in $cp_dir/copy.list.d/*.list
+	do
+		cat $file >> $tmpd/copy.list
+	done
+	sort $tmpd/copy.list > $tmpd/copy.list
+
+	# Start sync to folder
+	echo "Starting backup..."
+	FILENAME=$(date ='%Y-%m-%d-%H%M%S')
+	# Exclude $tmp_dname because it is the path to $tmpd relative to $HOME.
+	rsync -arv --files-from=$tmpd/copy.list --exclude=$tmp_dname $HOME $tmpd/$FILENAME/
+
+	echo "Creating $OUTPUT_DIR/$FILENAME.tar.gz"
+	pushd $tmpd/$FILENAME/
+	tar -czvf "$OUTPUT_DIR/$FILENAME.tar.gz" * .*
+	popd
+
+	# Cleanup
+	echo "Cleaning up temporary files..."
+	rm -rf $tmpd
+
+	echo "complete."
+}
+
+restore() {
+	init_tmpd
+	# We need a tar.gz file to start
+	echo "Extracting backup..."
+	pushd $HOME
+	tar -xzvf $ARCHIVE
+	popd
+
+	echo "Executing restorers..."
+	for recipe in "${RESTORE[@]}"
+	do
+		if [ -f $recipe_dir/$recipe/restore.sh ]; then
+			(
+				recipe_data="$recipe_data/$recipe"
+				. $recipe_dir/$recipe/restore.sh
+			)
+		else
+			>&2 echo "Warning: Unable to find restorer for recipe: '$recipe'."
+		fi
+	done
+
+	# Cleanup
+	echo "Cleaning up temporary files..."
+	rm -rf $tmpd
+
+	echo "complete."
+}
