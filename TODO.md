@@ -1,0 +1,5 @@
+- Plan out binary api
+- Build all binary paths
+- Create installer
+- Create release
+- Test

@@ -10,7 +10,7 @@
 : ${BACKUP_USR_ROOT:="$HOME/.backup"}
 config_dir="$BACKUP_USR_ROOT/conf"
 config="$config_dir/main.conf"
-recipe_dir="$BACKUP_USR_ROOT/recipes"
+recipes_dir="$BACKUP_USR_ROOT/recipes"
 recipe_data="$BACKUP_USR_ROOT/data"
 
 if [ $SUDO_USER ]; then
@@ -55,11 +55,12 @@ backup() {
 	echo "Running backup tasks..."
 	for recipe in "${BACKUP_TASKS[@]}"
 	do
-		if [ -f $recipe_dir/$recipe/backup.sh ]; then
+		if [ -f $recipes_dir/$recipe/backup.sh ]; then
 			(
 				recipe_data="$recipe_data/$recipe"
 				mkdir $recipe_data
-				. $recipe_dir/$recipe/backup.sh
+				$recipe_dir=$recipes_dir/$recipe
+				$recipe_dir/backup.sh
 			)
 		else
 			read -r -p $'Unable to find backup task for recipe: \'$recipe\'. Do you want to abort backup? [y/N]\n' response
@@ -113,10 +114,11 @@ restore() {
 	echo "Executing restorers..."
 	for recipe in "${RESTORE[@]}"
 	do
-		if [ -f $recipe_dir/$recipe/restore.sh ]; then
+		if [ -f $recipes_dir/$recipe/restore.sh ]; then
 			(
 				recipe_data="$recipe_data/$recipe"
-				. $recipe_dir/$recipe/restore.sh
+				$recipe_dir=$recipes_dir/$recipe
+				$recipe_dir/restore.sh
 			)
 		else
 			>&2 echo "Warning: Unable to find restorer for recipe: '$recipe'."

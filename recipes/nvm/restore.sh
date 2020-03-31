@@ -5,13 +5,14 @@ get_latest_release() {
 }
 
 VERSION=$(get_latest_release nvm-sh/nvm)
-echo $VERSION
+
 if which curl >/dev/null; then
     curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/$VERSION/install.sh | bash
 elif which wget >/dev/null; then
     wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash
 else
-    >&2 echo $'ERROR: Unable to download nvm, please install curl or wget and then run:\n\n    backup restore --retry nvm\n' 
+    >&2 echo $'ERROR: Unable to download nvm, please install curl or wget and then run:\n\n    backup restore --retry nvm\n'
+    return
 fi
 
 nvm_default_install_dir() {
