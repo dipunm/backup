@@ -26,6 +26,6 @@ if [ -d $DIR_STORE/alias ]; then
     cp -r $DIR_STORE/alias $NVM_DIR
 fi
 
-if [ -f $DIR_STORE/node-versions.list ]; download
+if [ -f $DIR_STORE/node-versions.list ]; then
     while read line; do nvm install $line; done <$DIR_STORE/node-versions.list
 fi
