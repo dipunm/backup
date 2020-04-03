@@ -18,10 +18,8 @@ recipe_restore() {
 		$DIR_RECIPE/restore.sh
 	)
 	local subsh_code="$?"
-	tput rc
-	tput ed
 
-	[ "$subsh_code" == "0" ] && echo "$recipe: completed successfully." && return
+	[ "$subsh_code" == "0" ] && tput rc && tput ed && echo "$recipe: completed successfully." && return
 	
 	failed_recipes+=( $recipe )
 	echo_err "$recipe: Exited with code $subsh_code."
