@@ -33,5 +33,10 @@ dir_config="$BACKUP_USR_ROOT/configs"
 
 load_config main.conf
 
+
+mk_dir_tmp
+cleanup_message=$(echo "cleaning up temporary files."$'\n')
+trap 'echo $cleanup_message ; rm -rf $dir_recipes_store $dir_tmp' EXIT
+
 # execute command.
 $COMMAND

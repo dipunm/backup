@@ -13,13 +13,6 @@ mk_dir_tmp() {
 	mkdir $dir_tmp
 }
 
-rm_dir_tmp() {
-	if [ -d "$dir_tmp" ]; then
-		echo "Cleaning up temporary files."
-		rm -rf $dir_tmp
-	fi
-}
-
 load_config() {
   assert_file "$dir_config/$1" "config"
   . "$dir_config/$1"

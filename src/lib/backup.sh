@@ -55,9 +55,6 @@ build_whitelist() {
 backup() {
     assert_file "$dir_config/files-from.list" 
 
-	mk_dir_tmp
-	trap 'rm_dir_tmp && rm -rf $dir_recipes_store' EXIT
-
 	echo "# Collecting recipe data"
     backup_recipes
 

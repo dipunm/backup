@@ -1,9 +1,11 @@
 VERSION_INFO=$(cat "$BACKUP_USR_ROOT/src/version")
 version() {
+	unset cleanup_message
 	echo "$VERSION_INFO"
 }
 
 help() {
+  unset cleanup_message
 	echo \
   "Usage:
   $0 backup [-o DIR]
