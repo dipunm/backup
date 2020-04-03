@@ -76,6 +76,5 @@ backup() {
 	tar -czf "$DIR_OUTPUT/$name_tmp.tar.gz" .
 	popd
 
-	rm_dir_tmp
 	echo "complete."
 }
