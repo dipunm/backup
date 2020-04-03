@@ -1,34 +1,55 @@
+export failed_recipes=()
+recipe_restore() {
+	local recipe=$1
 
-restore_recipes() {
-	echo "Executing restorers..."
-	for recipe in "${RESTORE[@]}"
+	[ ! -f "$dir_recipes_src/$recipe/restore.sh" ] && \
+		echo_err "$recipe: could not find recipe" && return
+
+	tput sc
+	continue_prompt "restoring: $recipe."
+	
+	(
+		export DIR_STORE="$dir_recipes_store/$recipe"
+		export DIR_TMP=$dir_tmp
+		export DIR_RECIPE="$dir_recipes_src/$recipe"
+		
+		mkdir -p $DIR_STORE
+
+		$DIR_RECIPE/restore.sh
+	)
+	local subsh_code="$?"
+	tput rc
+	tput ed
+
+	[ "$subsh_code" == "0" ] && echo "$recipe: completed successfully." && return
+	
+	failed_recipes+=( $recipe )
+	echo_err "$recipe: Exited with code $subsh_code."
+}
+
+full_restore() {
+	assert_file "$ARCHIVE" "archive"
+	
+	echo "# Restoring files from archive"
+	continue_prompt "This command will overwrite files in your \$HOME directory."
+	
+	pushd $HOME
+	tar -xzf $ARCHIVE
+	popd
+
+	echo $'\n'"# Restoring recipes"
+	for recipe in "${RECIPES[@]}"
 	do
-		if [ -f $dir_recipes_src/$recipe/restore.sh ]; then
-			(
-				export DIR_STORE="$dir_recipes_store/$recipe"
-				$recipe_dir=$dir_recipes_src/$recipe
-				$recipe_dir/restore.sh
-			)
-		else
-			>&2 echo "Warning: Unable to find restorer for recipe: '$recipe'."
-		fi
+		recipe_restore $recipe
 	done
 
-	# Cleanup
-	echo "Cleaning up temporary files..."
-	rm -rf $tmpd
-
-	echo "complete."
+	if [ "${#failed_recipes[@]}" -gt "0" ]; then
+		echo_err "the following recipes failed: $(join_by ', ' ${failed_recipes[@]})"
+	fi
 }
 
 restore() {
-	init_tmpd
-	# We need a tar.gz file to start
-	echo "Extracting backup..."
-	pushd $HOME
-	tar -xzvf $ARCHIVE
-	popd
+	[ -n "$RECIPE" ] && recipe_restore $RECIPE && exit
 
-	restore_recipes
+	full_restore && exit
 }
-

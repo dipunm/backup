@@ -9,3 +9,9 @@ continue_prompt() {
 echo_err() {
   echo $* >&2
 }
+
+function join_by { 
+  local IFS="$1" 
+  shift
+  echo "$*" 
+}

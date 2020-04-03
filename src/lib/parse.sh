@@ -36,6 +36,11 @@ parse_restore_args() {
     -r|--recipe)
       export RECIPE=$2
     ;;
+    -*)
+      echo_err "invalid option '$1'." && \
+      echo "Try '$0 --help' for more information."$'\n' && \
+      exit 1
+    ;;
     *)
       local f="$(cd $(dirname $1) 2>/dev/null && pwd)/$(basename $1)"
       assert_file $f
