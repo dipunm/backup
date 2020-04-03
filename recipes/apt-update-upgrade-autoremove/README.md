@@ -1,4 +1,4 @@
-# apt update and upgrade
+# apt update upgrade and autoremove
 This recipe should usually be last. It will ensure that apt is updated with 
 the new sources and will upgrade all installed packages. This recipe will also
 run `sudo apt autoremove` to cleanup unused apt packages.

@@ -2,22 +2,22 @@
 
 if [ ${#backup_networks[*]} -gt 0 ]; then
 
-    mkdir $recipe_data/system-connections
-    sudo chmod --reference=$system_connections $recipe_data/system-connections
-    sudo chown $USER:$USER $recipe_data/system-connections
+    mkdir $DIR_STORE/system-connections
+    sudo chmod --reference=$system_connections $DIR_STORE/system-connections
+    sudo chown $USER:$USER $DIR_STORE/system-connections
 
     for network in "${backup_networks[@]}"
 	do
 		if [ -f $system_connections/$network.nmconnection ]; then
 			sudo cp $system_connections/$network.nmconnection \
-                $recipe_data/system-connections
-            sudo chown $USER:$USER $recipe_data/system-connections/$network.nmconnection            
+                $DIR_STORE/system-connections
+            sudo chown $USER:$USER $DIR_STORE/system-connections/$network.nmconnection            
 		fi
 	done
 
 else
 
-sudo cp -r $system_connections $recipe_data
-sudo chown -R $USER:$USER $recipe_data/system-connections
+sudo cp -r $system_connections $DIR_STORE
+sudo chown -R $USER:$USER $DIR_STORE/system-connections
 
 fi

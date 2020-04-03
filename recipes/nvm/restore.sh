@@ -22,10 +22,10 @@ nvm_default_install_dir() {
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
-if [ -d $recipe_data/alias ]; then
-    cp -r $recipe_data/alias $NVM_DIR
+if [ -d $DIR_STORE/alias ]; then
+    cp -r $DIR_STORE/alias $NVM_DIR
 fi
 
-if [ -f $recipe_data/node-versions.list ]; download
-    while read line; do nvm install $line; done <$recipe_data/node-versions.list
+if [ -f $DIR_STORE/node-versions.list ]; download
+    while read line; do nvm install $line; done <$DIR_STORE/node-versions.list
 fi

@@ -22,3 +22,5 @@
 /.local/etc/wifi
 /.local/etc/vpn
 /.local/bin/docker-compose
+/.local/bin
+/.local/bin/backupto

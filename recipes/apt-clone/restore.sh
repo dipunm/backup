@@ -1,2 +1,2 @@
 sudo apt install apt-clone -y
-cp $recipe_data/apt-clone.tar.gz $HOME
+cp $DIR_STORE/apt-clone.tar.gz $HOME

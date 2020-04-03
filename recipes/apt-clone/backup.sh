@@ -1,1 +1,1 @@
-apt-clone clone --with-dpkg-repack $recipe_data/apt-clone.tar.gz
+apt-clone clone --with-dpkg-repack $DIR_STORE/apt-clone.tar.gz

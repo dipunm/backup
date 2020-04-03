@@ -1,2 +1,2 @@
-ls -1 $NVM_DIR/versions/node > $recipe_data/node-versions.list
-cp -r $NVM_DIR/alias $recipe_data
+ls -1 $NVM_DIR/versions/node > $DIR_STORE/node-versions.list
+cp -r $NVM_DIR/alias $DIR_STORE
