@@ -81,37 +81,4 @@ backup() {
 
 	rm_dir_tmp
 	echo "complete."
-
-	exit
-	# Create a concatenated list of files to copy
-	echo "Building list of files to copy..."
-	touch $tmpd/$files_from_file
-	cat $dir_config/$files_from_file > $tmpd/$files_from_file
-	for file in $dir_config/$files_from_file.d/*.list
-	do
-		echo $'\n'"$(cat $file)" >> $tmpd/$files_from_file
-	done
-  echo $'\n'"$(realpath $BACKUP_USR_ROOT --relative-to=$HOME)" >> $tmpd/$files_from_file
-	sort -o $tmpd/$files_from_file $tmpd/$files_from_file
-
-  continue_prompt "Ready to copy files."
-	# read -rsn1 -p "Ready to copy files. Press any key to continue..."$'\n'
-	# Start sync to folder
-	echo "Starting backup..."
-	FILENAME=$(date +'%Y-%m-%d-%H%M%S')
-  continue_prompt "Ready to copy files."
-	rsync -ar --info=progress2 \
-    --files-from="$tmpd/$files_from_file" \
-    --exclude="$(realpath $tmpd --relative-to=$HOME)" \
-    "$HOME" "$tmpd/$FILENAME/"
-
-  continue_prompt "Ready to compress."
-	# read -rsn1 -p "Ready to compress. Press any key to continue..."$'\n'
-	echo "Creating $DIR_OUTPUT/$FILENAME.tar.gz"
-	pushd $tmpd/$FILENAME/
-	tar -czf "$DIR_OUTPUT/$FILENAME.tar.gz" .
-	popd
-
-	rm_dir_tmp
-	echo "complete."
 }
