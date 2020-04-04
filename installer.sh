@@ -1,11 +1,13 @@
 ### TODO build downloader
-mkdir -p ~/.backup
-cp -r ~/Projects/bakitup/backup/* ~/.backup
+BACKUP_USR_ROOT="${BACKUP_USR_ROOT:-"$HOME/.backup"}"
+SOURCE="$HOME/Projects/bakitup/backup"
 
-BACKUP_USR_ROOT="${BACKUP_USR_ROOT:-$HOME/.backup}"
+mkdir -p $BACKUP_USR_ROOT
+cp -r $SOURCE/* $BACKUP_USR_ROOT
+
 cat ~/.zshrc | grep BACKUP_USR_ROOT >/dev/null || echo "
 # Backup tool.
 BACKUP_USR_ROOT=\"$BACKUP_USR_ROOT\"
 " >> ~/.zshrc
 
-[ ! -L "/usr/local/bin/mbkp" ] && sudo ln -s "$BACKUP_USR_ROOT/src/main.sh" "/usr/local/bin/mbkp"
+[ ! -L "/usr/local/bin/mbkp" ] && sudo ln -sf "$BACKUP_USR_ROOT/src/main.sh" "/usr/local/bin/mbkp"
