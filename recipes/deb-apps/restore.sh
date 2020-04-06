@@ -1,3 +1,4 @@
+which gdebi > /dev/null || sudo apt install gdebi
 for deb in ${debs[@]}
 do
 
@@ -9,5 +10,4 @@ do
             sudo gdebi $sub_deb
         done
     fi
-
 done

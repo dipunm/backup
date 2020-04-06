@@ -28,6 +28,7 @@ backup_recipes() {
 			
         	mkdir -p $DIR_STORE
 
+			[ -f "$dir_CONFIGS/$recipe.conf" ] && . "$dir_CONFIGS/$recipe.conf"
 			$DIR_RECIPE/backup.sh
 		)
 		local subsh_code="$?"
