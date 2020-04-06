@@ -29,7 +29,7 @@ backup_recipes() {
         	mkdir -p $DIR_STORE
 
 			export SRC_CONFIG="$dir_recipes_config/r_${recipe}.conf"
-			if [ -f "$SRC_CONFIG" ] then
+			if [ -f "$SRC_CONFIG" ]; then
 				. "$SRC_CONFIG" || exit
 			else
 				unset SRC_CONFIG
