@@ -28,7 +28,12 @@ backup_recipes() {
 			
         	mkdir -p $DIR_STORE
 
-			[ -f "$dir_CONFIGS/$recipe.conf" ] && . "$dir_CONFIGS/$recipe.conf"
+			export SRC_CONFIG="$dir_recipes_config/r_${recipe}.conf"
+			if [ -f "$SRC_CONFIG" ] then
+				. "$SRC_CONFIG" || exit
+			else
+				unset SRC_CONFIG
+			fi
 			$DIR_RECIPE/backup.sh
 		)
 		local subsh_code="$?"
@@ -49,7 +54,10 @@ build_whitelist() {
 	do
 		echo $'\n'"$(cat $file)" >> $dest
 	done
-  	echo $'\n'"$(realpath $BACKUP_USR_ROOT --relative-to=$HOME)" >> $dest
+  	echo $'\n'"$(realpath $dir_recipes_src --relative-to=$HOME)" >> $dest
+  	echo $'\n'"$(realpath $dir_recipes_store --relative-to=$HOME)" >> $dest
+	echo $'\n'"$(realpath $dir_recipes_config --relative-to=$HOME)" >> $dest
+	echo $'\n'"$(realpath $dir_config --relative-to=$HOME)" >> $dest
 	sort -o $dest $dest
 }
 

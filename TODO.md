@@ -19,3 +19,5 @@ Backups should transfer configs to $DIR_STORE if needed for restoring
 Restore should load configs from $DIR_STORE folder
 
 Restore using -r flag should extract $DIR_STORE from archive before running
+
+recipe configs will live in /configs and will follow convention: "r_${recipe}.conf"

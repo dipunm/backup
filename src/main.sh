@@ -29,6 +29,7 @@ fi
 DIR_OUTPUT=${DIR_OUTPUT:-$HOME}
 dir_recipes_src="$BACKUP_USR_ROOT/recipes"
 dir_recipes_store="$BACKUP_USR_ROOT/store"
+dir_recipes_config="$BACKUP_USR_ROOT/configs"
 dir_config="$BACKUP_USR_ROOT/configs"
 
 load_config main.conf
