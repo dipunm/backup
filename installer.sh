@@ -1,6 +1,6 @@
 ### TODO build downloader
 BACKUP_USR_ROOT="${BACKUP_USR_ROOT:-"$HOME/.backup"}"
-SOURCE="$HOME/Projects/bakitup/backup"
+SOURCE="$HOME/Projects/backup"
 
 RC=''
 case $SHELL in

@@ -1,5 +1,5 @@
 BACKUP_USR_ROOT="${BACKUP_USR_ROOT:-"$HOME/.backup"}"
-SOURCE="$HOME/Projects/bakitup/backup"
+SOURCE="$HOME/Projects/backup"
 
 [ ! -d $BACKUP_USR_ROOT ] && echo "backup root not found at: $BACKUP_USR_ROOT" && exit 1
 rm -rf $BACKUP_USR_ROOT/src

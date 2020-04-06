@@ -2,7 +2,7 @@
 
 BACKUP_USR_ROOT=${BACKUP_USR_ROOT:-"$HOME/.backup"}
 # For development.
-[ ! -d "$BACKUP_USR_ROOT" ] && BACKUP_USR_ROOT="$HOME/Projects/bakitup/backup" 
+[ ! -d "$BACKUP_USR_ROOT" ] && BACKUP_USR_ROOT="$HOME/Projects/backup" 
 # For development.
 . $BACKUP_USR_ROOT/src/lib/io.sh
 
