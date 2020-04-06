@@ -1,18 +1,9 @@
-ask_abort() {
-    [ -n "$1" ] && echo "$1"
-    read -r -p "abort? [y/N]: " response
-    case "$response" in
-        [yY][eE][sS]|[yY])
-            exit 1
-            ;;
-    esac
-}
-
 backup_recipes() {
 	for recipe in "${RECIPES[@]}"
     do
         if [ ! -d "$dir_recipes_src/$recipe" ]; then
-            ask_abort "recipe not found: '$recipe'."
+			echo_err "recipe not found: '$recipe'."
+			ask -n "abort?" && exit 1
             continue
         fi
 

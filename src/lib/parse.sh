@@ -32,19 +32,30 @@ parse_backup_args() {
 }
 
 parse_restore_args() {
-  case $1 in
-    -r|--recipe)
-      export RECIPE=$2
-    ;;
-    -*)
-      echo_err "invalid option '$1'." && \
-      echo "Try '$0 --help' for more information."$'\n' && \
-      exit 1
-    ;;
-    *)
-      local f="$(cd $(dirname $1) 2>/dev/null && pwd)/$(basename $1)"
-      assert_file $f
-      export ARCHIVE=$f
-    ;;
+  assert_file $1 "archive"
+  export ARCHIVE=$1
+
+  case $2 in
+  -a|--all)
+    export RESTORE_MODE='all'
+  ;;
+  -f|--files-only)
+    export RESTORE_MODE='files'
+  ;;
+  -r|--recipes)
+    export RESTORE_MODE='recipe'
+    if [ $3 = '*' ]; then
+      # RECIPES will be loaded by config
+      return;
+    fi
+
+    # [3...N]=recipeNames,
+    RECIPES=${@:3}
+  ;;
+  *)
+    echo_err "invalid option: '$2'."
+    echo "Try '$0 --help' for more information."$'\n'
+    exit 1
+  ;;
   esac
 }

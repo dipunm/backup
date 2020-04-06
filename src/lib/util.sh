@@ -21,11 +21,11 @@ ask() {
     -y)
       read -r -p "$2 [Y/n]: " response
       case "$response" in
-        [yY][eE][sS]|[yY])
-          return 0
+        [nN][oO]|[nN])
+          return 1
         ;;
         *)
-          return 1
+          return 0
         ;;
       esac  
     ;;
@@ -33,10 +33,10 @@ ask() {
       read -r -p "${2:-1} [y/N]: " response
       case "$response" in
         [yY][eE][sS]|[yY])
-          return 1
+          return 0
         ;;
         *)
-          return 0
+          return 1
         ;;
       esac
     ;;

@@ -6,16 +6,15 @@ version() {
 
 help() {
   unset cleanup_message
-	echo \
-  "Usage:
+	echo "\
+Usage:
   $0 backup [-o DIR]
-  $0 restore ARCHIVE
-  $0 restore -r RECIPE
+  $0 restore ARCHIVE (-a|-f|-r RECIPE...)
 
 Commands:
   backup                Creates a backup to a specified directory.
-  restore               Restores your system using the provided backup 
-                        file.
+  restore ARCHIVE       Restores files and/or recipes from the 
+                        provided archive file.
 
 Options:
   -v --version          Show version.
@@ -25,10 +24,12 @@ Options:
   -o, --out=DIR         Specify the directory to restore the backup to.
                         [ default: ~/ ]
 
-  -r, --recipe=RECIPE   Specify a single recipe to restore.
+  -a, --all             Performs a full restore in an interactive mode
+                        to ensure a controlled restore experience.
 
-Positional:
-  ARCHIVE               The tar.gz file to restore. This file will be
-                        restored to your \$HOME directory.
+  -f, --files-only      Restores the backed up files without attempting
+                        to restore any recipes.
+
+  -r, --recipes A B     Restores the named recipes from the archive.
 "
 }

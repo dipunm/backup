@@ -1,5 +1,5 @@
 export failed_recipes=()
-recipe_restore() {
+restore_recipe_single() {
 	local recipe=$1
 
 	[ ! -f "$dir_recipes_src/$recipe/restore.sh" ] && \
@@ -8,39 +8,39 @@ recipe_restore() {
 	tput sc
 	continue_prompt "restoring: $recipe."
 		
-		(
-			export DIR_STORE="$dir_recipes_store/$recipe"
-			export DIR_TMP=$dir_tmp
-			export DIR_RECIPE="$dir_recipes_src/$recipe"
-			
-			mkdir -p $DIR_STORE
-
-			$DIR_RECIPE/restore.sh
-		)
-		local subsh_code="$?"
-
-		[ "$subsh_code" == "0" ] && tput rc && tput ed && echo "$recipe: completed successfully." && return
+	(
+		export DIR_STORE="$dir_recipes_store/$recipe"
+		export DIR_TMP=$dir_tmp
+		export DIR_RECIPE="$dir_recipes_src/$recipe"
 		
-		failed_recipes+=( $recipe )
-		echo_err "$recipe: Exited with code $subsh_code."
+		mkdir -p $DIR_STORE
+
+		$DIR_RECIPE/restore.sh
+	)
+	local subsh_code="$?"
+
+	[ "$subsh_code" == "0" ] && tput rc && tput ed && echo "$recipe: completed successfully." && return
+	
+	failed_recipes+=( $recipe )
+	echo_err "$recipe: Exited with code $subsh_code."
 }
 
-full_restore() {
-	assert_file "$ARCHIVE" "archive"
-	
+extract_files() {
 	echo "# Restoring files from archive"
 	continue_prompt "This command will overwrite files in your \$HOME directory."
 	
 	pushd $HOME
 	tar -xzf $ARCHIVE
 	popd
+}
 
+restore_recipes() {
 	export skipped_recipes=()
 	echo $'\n'"# Restoring recipes"
 	for recipe in "${RECIPES[@]}"
 	do
-		if ask -y "run recipe: $recipe?"; then
-			recipe_restore $recipe
+		if [ "$FLOW" != "controlled" ] || ask -y "run recipe: $recipe?"; then
+			restore_recipe_single $recipe
 		else
 			echo "skipping."
 			skipped_recipes+=( $recipe )
@@ -57,7 +57,18 @@ full_restore() {
 }
 
 restore() {
-	[ -n "$RECIPE" ] && recipe_restore $RECIPE && exit
-
-	full_restore && exit
+	FLOW='auto'
+	case $RESTORE_MODE in
+	all)
+		FLOW='controlled'
+		extract_files
+		restore_recipes
+	;;
+	files)
+		extract_files
+	;;
+	recipe)
+		restore_recipes
+	;;
+	esac
 }
