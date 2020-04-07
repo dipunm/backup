@@ -2,11 +2,11 @@
 BACKUP_USR_ROOT="${BACKUP_USR_ROOT:-"$HOME/.backup"}"
 SOURCE="$HOME/Projects/backup"
 
-mkdir -p $BACKUP_USR_ROOT
-cp -r $SOURCE/* $BACKUP_USR_ROOT
+mkdir -p "$BACKUP_USR_ROOT"
+cp -r "$SOURCE"/* "$BACKUP_USR_ROOT"
 
 RC=''
-case $SHELL in
+case "$SHELL" in
     /usr/bin/bash|/bin/bash)
         RC=~/.bashrc
     ;;
@@ -22,7 +22,7 @@ BACKUP_USR_ROOT=\"$BACKUP_USR_ROOT\"
 
 if [ -n "$RC" ]; then
     echo "your default shell is $SHELL. Adding configuration to $RC"
-    cat $RC | grep BACKUP_USR_ROOT >/dev/null || echo $SCRIPT >> $RC
+    cat "$RC" | grep BACKUP_USR_ROOT >/dev/null || echo "$SCRIPT" >> "$RC"
 else
     echo "Unable to determine your default shell. 
 Please manually add the following to your shell's rc file:

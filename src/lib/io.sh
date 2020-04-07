@@ -7,10 +7,10 @@ import() {
 
 mk_dir_tmp() {
   local name="backup_tmp.$(date +'%s')"
-  dir_tmp=$BACKUP_USR_ROOT/$name
+  dir_tmp="$BACKUP_USR_ROOT/$name"
 	
-  rm -rf $dir_tmp
-	mkdir $dir_tmp
+  rm -rf "$dir_tmp"
+	mkdir "$dir_tmp"
 }
 
 load_config() {

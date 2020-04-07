@@ -21,7 +21,7 @@ parse_backup_args() {
   case $1 in
     -o|--out)
       local o=$(cd "$2" 2>/dev/null && pwd)
-      assert_dir "$o" && export DIR_OUTPUT=$o
+      assert_dir "$o" && export DIR_OUTPUT="$o"
     ;;
     *)
       echo_err "invalid option '$1'." && \

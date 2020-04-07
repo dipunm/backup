@@ -10,18 +10,18 @@ restore_recipe_single() {
 		
 	(
 		export DIR_STORE="$dir_recipes_store/$recipe"
-		export DIR_TMP=$dir_tmp
+		export DIR_TMP="$dir_tmp"
 		export DIR_RECIPE="$dir_recipes_src/$recipe"
 		
-		mkdir -p $DIR_STORE
+		mkdir -p "$DIR_STORE"
 
-		$DIR_RECIPE/restore.sh
+		"$DIR_RECIPE"/restore.sh
 	)
 	local subsh_code="$?"
 
 	[ "$subsh_code" == "0" ] && tput rc && tput ed && echo "$recipe: completed successfully." && return
 	
-	failed_recipes+=( $recipe )
+	failed_recipes+=( "$recipe" )
 	echo_err "$recipe: Exited with code $subsh_code."
 }
 
@@ -29,8 +29,8 @@ extract_files() {
 	echo "# Restoring files from archive"
 	continue_prompt "This command will overwrite files in your \$HOME directory."
 	
-	pushd $HOME
-	tar -xzf $ARCHIVE
+	pushd "$HOME"
+	tar -xzf "$ARCHIVE"
 	popd
 }
 
@@ -47,10 +47,10 @@ restore_recipes() {
 	for recipe in "${RECIPES[@]}"
 	do
 		if [ "$FLOW" != "controlled" ] || ask -y "run recipe: $recipe?"; then
-			restore_recipe_single $recipe
+			restore_recipe_single "$recipe"
 		else
 			echo "skipping."
-			skipped_recipes+=( $recipe )
+			skipped_recipes+=( "$recipe" )
 		fi
 	done
 
@@ -65,7 +65,7 @@ restore_recipes() {
 
 restore() {
 	FLOW='auto'
-	case $RESTORE_MODE in
+	case "$RESTORE_MODE" in
 	all)
 		FLOW='controlled'
 		extract_files

@@ -14,10 +14,10 @@ backup_recipes() {
 
         (
             export DIR_STORE="$dir_recipes_store/$recipe"
-            export DIR_TMP=$dir_tmp
+            export DIR_TMP="$dir_tmp"
 			export DIR_RECIPE="$dir_recipes_src/$recipe"
 			
-        	mkdir -p $DIR_STORE
+        	mkdir -p "$DIR_STORE"
 
 			export SRC_CONFIG="$dir_recipes_config/r_${recipe}.conf"
 			if [ -f "$SRC_CONFIG" ]; then
@@ -25,7 +25,7 @@ backup_recipes() {
 			else
 				unset SRC_CONFIG
 			fi
-			$DIR_RECIPE/backup.sh
+			"$DIR_RECIPE"/backup.sh
 		)
 		local subsh_code="$?"
 		tput rc
@@ -39,16 +39,16 @@ backup_recipes() {
 build_whitelist() {
 	local source="$1"
 	local dest="$2"
-	touch $dest
-	cat $source > $dest
+	touch "$dest"
+	cat "$source" > "$dest"
 	for file in "$source.d/"*.list
 	do
-		echo $'\n'"$(cat $file)" >> $dest
+		echo $'\n'"$(cat "$file")" >> "$dest"
 	done
-  	echo $'\n'"$(realpath $dir_recipes_src --relative-to=$HOME)" >> $dest
-	echo $'\n'"$(realpath $dir_recipes_config --relative-to=$HOME)" >> $dest
-	echo $'\n'"$(realpath $dir_config --relative-to=$HOME)" >> $dest
-	sort -o $dest $dest
+  	echo $'\n'"$(realpath "$dir_recipes_src" --relative-to="$HOME")" >> "$dest"
+  	echo $'\n'"$(realpath "$dir_recipes_config" --relative-to="$HOME")" >> "$dest"
+	echo $'\n'"$(realpath "$dir_config" --relative-to="$HOME")" >> "$dest"
+	sort -o "$dest" "$dest"
 }
 
 backup() {
@@ -63,14 +63,14 @@ backup() {
 	local name_tmp=$(date +'%Y-%m-%d-%H%M%S')
 	local dir_tmp_output="$dir_tmp/$name_tmp"
 	
-	echo rsync $(realpath $dir_tmp --relative-to=$HOME)
+	echo rsync $(realpath "$dir_tmp" --relative-to="$HOME")
 	rsync -ar --info=progress2 \
 		--files-from="$fpath_whitelist" \
-		--exclude="$(realpath $dir_tmp --relative-to=$HOME)" \
+		--exclude="$(realpath "$dir_tmp" --relative-to="$HOME")" \
 		"$HOME" "$dir_tmp_output/"
 
 	echo $'\n'"# Creating archive"
-	pushd $dir_tmp_output
+	pushd "$dir_tmp_output"
 	echo "output: $DIR_OUTPUT/$name_tmp.tar.gz"
 	tar -czf "$DIR_OUTPUT/$name_tmp.tar.gz" . "$dir_recipes_store"
 	popd

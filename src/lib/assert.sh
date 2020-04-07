@@ -7,7 +7,7 @@ assert_no_sudo() {
 
 assert_file() {
   [ -f "$1" ] && return
-  local type=${2:-'file'}
+  local type="${2:-'file'}"
   echo_err "$type not found: $1"
   exit 1
 }
