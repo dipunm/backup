@@ -8,7 +8,7 @@ BACKUP_USR_ROOT="${BACKUP_USR_ROOT:-"$HOME/.backup"}"
 
 import lib/assert lib/util lib/parse lib/info lib/backup lib/restore
 
-HOME=`cd ~ && pwd`
+HOME=~
 DIR_OUTPUT="${DIR_OUTPUT:-$HOME}"
 dir_recipes_src="$BACKUP_USR_ROOT/recipes"
 dir_recipes_store="$BACKUP_USR_ROOT/store"
@@ -18,7 +18,6 @@ dir_config="$BACKUP_USR_ROOT/configs"
 assert_no_sudo
 load_config main.conf
 
-unset DIR_OUTPUT
 unset ARCHIVE
 parse_command $1
 

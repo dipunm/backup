@@ -72,7 +72,7 @@ backup() {
 	echo $'\n'"# Creating archive"
 	pushd "$dir_tmp_output"
 	echo "output: $DIR_OUTPUT/$name_tmp.tar.gz"
-	tar -czf "$DIR_OUTPUT/$name_tmp.tar.gz" . "$dir_recipes_store"
+	tar -czf "$DIR_OUTPUT/$name_tmp.tar.gz" . -C "$(dirname "$dir_recipes_store")" "$(basename "$dir_recipes_store")"
 	popd
 
 	echo "complete."
