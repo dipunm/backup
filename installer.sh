@@ -2,6 +2,9 @@
 BACKUP_USR_ROOT="${BACKUP_USR_ROOT:-"$HOME/.backup"}"
 SOURCE="$HOME/Projects/backup"
 
+mkdir -p $BACKUP_USR_ROOT
+cp -r $SOURCE/* $BACKUP_USR_ROOT
+
 RC=''
 case $SHELL in
     /usr/bin/bash|/bin/bash)
@@ -12,14 +15,10 @@ case $SHELL in
     ;;
 esac
 
-$SCRIPT="
+SCRIPT="
 # Backup tool.
 BACKUP_USR_ROOT=\"$BACKUP_USR_ROOT\"
 "
-
-
-mkdir -p $BACKUP_USR_ROOT
-cp -r $SOURCE/* $BACKUP_USR_ROOT
 
 if [ -n "$RC" ]; then
     echo "your default shell is $SHELL. Adding configuration to $RC"

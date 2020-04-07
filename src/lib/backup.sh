@@ -46,7 +46,6 @@ build_whitelist() {
 		echo $'\n'"$(cat $file)" >> $dest
 	done
   	echo $'\n'"$(realpath $dir_recipes_src --relative-to=$HOME)" >> $dest
-  	echo $'\n'"$(realpath $dir_recipes_store --relative-to=$HOME)" >> $dest
 	echo $'\n'"$(realpath $dir_recipes_config --relative-to=$HOME)" >> $dest
 	echo $'\n'"$(realpath $dir_config --relative-to=$HOME)" >> $dest
 	sort -o $dest $dest
@@ -73,7 +72,7 @@ backup() {
 	echo $'\n'"# Creating archive"
 	pushd $dir_tmp_output
 	echo "output: $DIR_OUTPUT/$name_tmp.tar.gz"
-	tar -czf "$DIR_OUTPUT/$name_tmp.tar.gz" .
+	tar -czf "$DIR_OUTPUT/$name_tmp.tar.gz" . "$dir_recipes_store"
 	popd
 
 	echo "complete."

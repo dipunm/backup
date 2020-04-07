@@ -34,6 +34,13 @@ extract_files() {
 	popd
 }
 
+extract_store() {
+	echo "# Extracting recipe store"
+	pushd "$BACKUP_USR_ROOT"
+	tar -xzf "$ARCHIVE" "$(basename "$dir_recipes_store")"
+	popd
+}
+
 restore_recipes() {
 	export skipped_recipes=()
 	echo $'\n'"# Restoring recipes"
@@ -68,6 +75,7 @@ restore() {
 		extract_files
 	;;
 	recipe)
+		extract_store
 		restore_recipes
 	;;
 	esac
