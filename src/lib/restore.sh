@@ -29,16 +29,12 @@ extract_files() {
 	echo "# Restoring files from archive"
 	continue_prompt "This command will overwrite files in your \$HOME directory."
 	
-	pushd "$HOME"
-	tar -xzf "$ARCHIVE"
-	popd
+	tar -xzf "$ARCHIVE" -C "$HOME" . && extract_store
 }
 
 extract_store() {
 	echo "# Extracting recipe store"
-	pushd "$BACKUP_USR_ROOT"
-	tar -xzf "$ARCHIVE" "$(basename "$dir_recipes_store")"
-	popd
+	tar -xzf "$ARCHIVE" -C "$(dirname "$dir_recipes_store")" "$(basename "$dir_recipes_store")"
 }
 
 restore_recipes() {
