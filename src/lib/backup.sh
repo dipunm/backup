@@ -16,17 +16,13 @@ backup_recipes() {
             export DIR_STORE="$dir_recipes_store/$recipe"
             export DIR_TMP="$dir_tmp"
 			export DIR_RECIPE="$dir_recipes_src/$recipe"
+			export SRC_CONFIG="$dir_recipes_config/r_${recipe}.conf"
 			
         	mkdir -p "$DIR_STORE"
 
-			export SRC_CONFIG="$dir_recipes_config/r_${recipe}.conf"
-			if [ -f "$SRC_CONFIG" ]; then
-				. "$SRC_CONFIG" || exit
-			else
-				unset SRC_CONFIG
-			fi
 			"$DIR_RECIPE"/backup.sh
 		)
+
 		local subsh_code="$?"
 		tput rc
 		tput ed
