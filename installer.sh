@@ -1,17 +1,6 @@
 #!/bin/bash
 {
 
-# Downloader downloads from master for now
-tmp_dir=".tmp_$(date '+%s')"
-tmp_dir=~/"$tmp_dir"
-mkdir -p $tmp_dir
-trap "rm -rf $tmp_dir" EXIT
-
-wget -O "$tmp_dir/backup-master.tar.gz" "https://github.com/dipunm/backup/archive/master.tar.gz" && \
-tar -xzf "$tmp_dir/backup-master.tar.gz"  -C "$tmp_dir" backup-master
-SOURCE="$tmp_dir/backup-master"
-# End Downloader
-
 BACKUP_USR_ROOT="${BACKUP_USR_ROOT:-"$HOME/.backup"}"
 SCRIPT="
 # Backup tool.
@@ -54,17 +43,32 @@ install_recipes() {
 }
 
 copy_files() {
-    mkdir -p "$BACKUP_USR_ROOT"
     cp -r "$SOURCE/src" "$BACKUP_USR_ROOT"
     cp -r "$SOURCE/templates" "$BACKUP_USR_ROOT"
-    cp -r "$SOURCE/README.md" "$BACKUP_USR_ROOT"
-    cp -r "$SOURCE/upgrade.sh" "$BACKUP_USR_ROOT"
-    cp -r "$SOURCE/LICENSE" "$BACKUP_USR_ROOT"
+    cp "$SOURCE/README.md" "$BACKUP_USR_ROOT"
+    cp "$SOURCE/upgrade.sh" "$BACKUP_USR_ROOT"
+    cp "$SOURCE/installer.sh" "$BACKUP_USR_ROOT"
+    cp "$SOURCE/LICENSE" "$BACKUP_USR_ROOT"
+    
     cp -r "$SOURCE/src/recipes" "$BACKUP_USR_ROOT"
-    install_recipes
+}
+
+download() {
+    # Downloader downloads from master for now
+    tmp_dir=".tmp_$(date '+%s')"
+    tmp_dir=~/"$tmp_dir"
+    mkdir -p $tmp_dir
+    trap "rm -rf $tmp_dir" EXIT
+
+    wget -O "$tmp_dir/backup-master.tar.gz" "https://github.com/dipunm/backup/archive/master.tar.gz" && \
+    tar -xzf "$tmp_dir/backup-master.tar.gz"  -C "$tmp_dir" backup-master
+    SOURCE="$tmp_dir/backup-master"
+    # End Downloader
 }
 
 main() {
+
+download
 
 echo "
 #########################################
@@ -74,7 +78,7 @@ echo "
 ==> MyBackup will be installed to '$BACKUP_USR_ROOT'.
 " && pause_continue
 
-copy_files && echo "
+mkdir -p "$BACKUP_USR_ROOT" && copy_files && install_recipes && echo "
 Files installed successfully.
 "
 
