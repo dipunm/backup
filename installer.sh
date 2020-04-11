@@ -1,6 +1,6 @@
 #!/bin/bash
 {
-echo "hello"
+
 # Downloader downloads from master for now
 tmp_dir=".tmp_$(date '+%s')"
 tmp_dir=~/"$tmp_dir"
@@ -19,6 +19,7 @@ BACKUP_USR_ROOT=\"$BACKUP_USR_ROOT\"
 "
 
 pause_continue() {
+    read -rs -d '' -t 0.1
     read -rsn1 -p "Press any key to continue..."$'\n'
 }
 
