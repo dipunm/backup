@@ -5,7 +5,7 @@ can become friendly for many other desktop linux distributions.
 
 ## Install
 ```bash
-    wget -qO- https://raw.githubusercontent.com/dipunm/backup/master/installer.sh | bash
+    bash <(wget -qO- https://raw.githubusercontent.com/dipunm/backup/master/installer.sh)
 ```
 
 ## Philosophy

@@ -19,7 +19,6 @@ BACKUP_USR_ROOT=\"$BACKUP_USR_ROOT\"
 "
 
 pause_continue() {
-    read -rs -d '' -t 0.1
     read -rsn1 -p "Press any key to continue..."$'\n'
 }
 
