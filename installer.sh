@@ -4,7 +4,7 @@
 BACKUP_USR_ROOT="${BACKUP_USR_ROOT:-"$HOME/.backup"}"
 SCRIPT="
 # Backup tool.
-BACKUP_USR_ROOT=\"$BACKUP_USR_ROOT\"
+export BACKUP_USR_ROOT=\"$BACKUP_USR_ROOT\"
 "
 
 pause_continue() {
