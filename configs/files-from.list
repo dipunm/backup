@@ -6,21 +6,5 @@
 /Videos
 /Public
 
-# File explorer new file templates
+# Nautilus new file templates
 /Templates
-
-# Cisco VPN settings
-/.anyconnect
-
-# Do not include the Projects folder (too big)
-# /Projects
-
-# Custom scripts
-/.local/bin/sudoers
-
-# Important files for OpenTable
-/.local/etc/wifi
-/.local/etc/vpn
-/.local/bin/docker-compose
-/.local/bin
-/.local/bin/backupto

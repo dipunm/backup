@@ -28,7 +28,6 @@ case "$(basename "$SHELL")" in
 esac
 
 install_recipes() {
-    mkdir -p "$BACKUP_USR_ROOT/configs"
     for conf in "$BACKUP_USR_ROOT/src/recipes"/*;
     do
         # unsupported package names
@@ -45,6 +44,7 @@ install_recipes() {
 
 copy_files() {
     cp -r "$SOURCE/src" "$BACKUP_USR_ROOT"
+    cp -r "$SOURCE/configs" "$BACKUP_USR_ROOT"
     cp -r "$SOURCE/templates" "$BACKUP_USR_ROOT"
     cp "$SOURCE/README.md" "$BACKUP_USR_ROOT"
     cp "$SOURCE/upgrade.sh" "$BACKUP_USR_ROOT"
