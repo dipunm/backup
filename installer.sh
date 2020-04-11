@@ -1,6 +1,6 @@
 #!/bin/bash
 {
-
+echo "hello"
 # Downloader downloads from master for now
 tmp_dir=".tmp_$(date '+%s')"
 tmp_dir=~/"$tmp_dir"
