@@ -1,8 +1,18 @@
 #!/bin/bash
+{
 
-### TODO build downloader
+# Downloader downloads from master for now
+tmp_dir=".tmp_$(date '+%s')"
+tmp_dir=~/"$tmp_dir"
+mkdir -p $tmp_dir
+trap "rm -rf $tmp_dir" EXIT
+
+wget -qO "$tmp_dir/backup-master.tar.gz" "https://github.com/dipunm/backup/archive/master.tar.gz" && \
+tar -xzf "$tmp_dir/backup-master.tar.gz"  -C "$tmp_dir" backup-master
+SOURCE="$tmp_dir/backup-master"
+# End Downloader
+
 BACKUP_USR_ROOT="${BACKUP_USR_ROOT:-"$HOME/.backup"}"
-SOURCE="$HOME/Projects/backup"
 SCRIPT="
 # Backup tool.
 BACKUP_USR_ROOT=\"$BACKUP_USR_ROOT\"
@@ -127,3 +137,5 @@ echo;
 if [ "$BACKUP_INSTALL_OVERRIDE" != "don't install" ]; then
     main
 fi
+
+}

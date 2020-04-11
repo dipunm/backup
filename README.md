@@ -3,6 +3,11 @@ This tool is designed to make backup and restores easier in linux applications.
 Currently it has been designed for Ubuntu, but hopefully as it gains adoption, it
 can become friendly for many other desktop linux distributions.
 
+## Install
+```bash
+    wget -qO- https://raw.githubusercontent.com/dipunm/backup/master/installer.sh | bash
+```
+
 ## Philosophy
 Learning what files to backup on a desktop linux environment is tricky because a 
 typical installation is usually not quite ready (... for me). After playing with 
