@@ -39,10 +39,12 @@ build_whitelist() {
 	local dest="$2"
 	touch "$dest"
 	cat "$source" > "$dest"
-	for file in "$source.d/"*.list
+	for list in "${BACKUP_LISTS[@]}"
 	do
-		echo $'\n'"$(cat "$file")" >> "$dest"
+		file="$list.list"
+		[ -f "$file" ] && echo $'\n'"$(cat "$file")" >> "$dest"
 	done
+
   	echo $'\n'"$(realpath "$dir_recipes_src" --relative-to="$HOME")" >> "$dest"
   	echo $'\n'"$(realpath "$dir_recipes_config" --relative-to="$HOME")" >> "$dest"
 	echo $'\n'"$(realpath "$dir_config" --relative-to="$HOME")" >> "$dest"

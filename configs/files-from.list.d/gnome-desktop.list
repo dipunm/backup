@@ -1,5 +1,5 @@
-/.local/share/gnome-shell
-/.config/dconf
+.local/share/gnome-shell
+.config/dconf
 
 # Used by gnome extensions:
-/.entries.json
+.entries.json

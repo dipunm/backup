@@ -4,4 +4,5 @@ and folders together. You can also share files in this folder if you share
 common folder structures or applications with other users.
 
 Files can be named anything but must use the extension `.list` and must 
-remain in this folder without using subdirectories.
+remain in this folder without using subdirectories. Add a reference to
+each file that you wish to include in $BACKUP_USR_ROOT/configs/main.conf
