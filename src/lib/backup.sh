@@ -1,3 +1,4 @@
+export failed_recipes=()
 backup_recipes() {
 	for recipe in "${RECIPES[@]}"
     do
@@ -28,6 +29,7 @@ backup_recipes() {
 		tput ed
 
 		[ "$subsh_code" == "0" ] && echo "$recipe: completed successfully." && continue
+		failed_recipes+=( "$recipe" )
 		continue_prompt "$recipe: Exited with code $?."
     done
 }
@@ -52,6 +54,10 @@ backup() {
 
 	echo "# Collecting recipe data"
     backup_recipes
+	if [ "${#failed_recipes[@]}" -gt "0" ]; then
+		echo_err "the following recipes may be unrestorable: $(join_by ', ' ${failed_recipes[@]})"
+		continue_prompt
+	fi
 
 	echo $'\n'"# Backing up files"
 	fpath_whitelist="$dir_tmp/whitelist.list"

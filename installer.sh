@@ -28,6 +28,34 @@ case "$(basename "$SHELL")" in
     ;;
 esac
 
+install_recipes() {
+    for conf in "$BACKUP_USR_ROOT/src/recipes"/*;
+    do
+        # unsupported package names
+        [ "$conf" = "main" ] && continue;
+        [ "$conf" = "files-from" ] && continue;
+        
+        if [ -f "$conf/default.conf" ]; then
+            recipe="$(basename "$conf")"
+            # copies without overwriting.
+            cp -n "$conf/default.conf" "$BACKUP_USR_ROOT/configs/r_${recipe}.conf"
+        fi
+    done
+}
+
+copy_files() {
+    mkdir -p "$BACKUP_USR_ROOT"
+    cp -r "$SOURCE/src" "$BACKUP_USR_ROOT"
+    cp -r "$SOURCE/templates" "$BACKUP_USR_ROOT"
+    cp -r "$SOURCE/README.md" "$BACKUP_USR_ROOT"
+    cp -r "$SOURCE/upgrade.sh" "$BACKUP_USR_ROOT"
+    cp -r "$SOURCE/LICENSE" "$BACKUP_USR_ROOT"
+    cp -r "$SOURCE/src/recipes" "$BACKUP_USR_ROOT"
+    install_recipes
+}
+
+main() {
+
 echo "
 #########################################
 ## Hi! Thanks for installing MyBackup. ##
@@ -36,9 +64,9 @@ echo "
 ==> MyBackup will be installed to '$BACKUP_USR_ROOT'.
 " && pause_continue
 
-mkdir -p "$BACKUP_USR_ROOT" && cp -r "$SOURCE"/* "$BACKUP_USR_ROOT" && echo "
+copy_files && echo "
 Files installed successfully.
-";
+"
 
 echo "Awesome! We will need to install some environment variables to your 
 shell profile and install the mbkp command.
@@ -92,3 +120,10 @@ $SCRIPT
 echo "Please confirm the installation by running: 
 mbkp --version"
 echo;
+
+}
+
+
+if [ "$BACKUP_INSTALL_OVERRIDE" != "don't install" ]; then
+    main
+fi
