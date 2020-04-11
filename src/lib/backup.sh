@@ -30,7 +30,7 @@ backup_recipes() {
 
 		[ "$subsh_code" == "0" ] && echo "$recipe: completed successfully." && continue
 		failed_recipes+=( "$recipe" )
-		continue_prompt "$recipe: Exited with code $?."
+		continue_prompt "$recipe: Exited with code $subsh_code."
     done
 }
 
