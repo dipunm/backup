@@ -28,6 +28,7 @@ case "$(basename "$SHELL")" in
 esac
 
 install_recipes() {
+    mkdir -p "$BACKUP_USR_ROOT/configs"
     for conf in "$BACKUP_USR_ROOT/src/recipes"/*;
     do
         # unsupported package names
