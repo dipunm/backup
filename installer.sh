@@ -4,7 +4,7 @@
 BACKUP_USR_ROOT="${BACKUP_USR_ROOT:-"$HOME/.backup"}"
 SCRIPT="
 # Backup tool.
-export BACKUP_USR_ROOT=\"$BACKUP_USR_ROOT\"
+export BACKUP_USR_ROOT=\"$(echo "$BACKUP_USR_ROOT" | sed "s%^$HOME%\$HOME%")\"
 "
 
 pause_continue() {
