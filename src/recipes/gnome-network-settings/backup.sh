@@ -14,7 +14,9 @@ if [ ${#backup_networks[@]} -gt 0 ]; then
 		if [ -f $system_connections/$network.nmconnection ]; then
 			sudo cp $system_connections/$network.nmconnection \
                 $DIR_STORE/system-connections
-            sudo chown $USER:$USER $DIR_STORE/system-connections/$network.nmconnection            
+            sudo chown $USER:$USER $DIR_STORE/system-connections/$network.nmconnection  
+        else
+            echo "warning: network $network not found."
 		fi
 	done
 
