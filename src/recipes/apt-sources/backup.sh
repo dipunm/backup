@@ -1,3 +1,5 @@
+#!/bin/bash
+
 [ -d "/etc/apt/preferences.d" ] && cp -r /etc/apt/preferences.d $DIR_STORE || true
 [ -d "/etc/apt/sources.list.d" ] && cp -r /etc/apt/sources.list.d $DIR_STORE || true
 [ -d "/etc/apt/trusted.gpg.d" ] && cp -r /etc/apt/trusted.gpg.d $DIR_STORE || true
