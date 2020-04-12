@@ -1,3 +1,7 @@
+# IMPORTANT
+> Files in this folder change after an upgrade. Original files will be backed
+up here with an extension: `.backup{hash}` (where `{hash}` is a number).
+
 This folder may contain a list of files to backup. Use this folder if you
 would like to separate your main `backup.list` file to keep relevant files
 and folders together. You can also share files in this folder if you share 

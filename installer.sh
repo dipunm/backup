@@ -43,8 +43,13 @@ install_recipes() {
 }
 
 copy_files() {
+    hash="$(date '+%s')"
+    mkdir -p "$SOURCE/configs"
+    rsync -b --suffix=".backup${hash}" "$SOURCE/configs/files-from.list.d" "$BACKUP_USR_ROOT/configs"
+    cp -n "$SOURCE/configs/files-from.list" "$BACKUP_USR_ROOT"
+    cp -n "$SOURCE/configs/main.conf" "$BACKUP_USR_ROOT"
+
     cp -r "$SOURCE/src" "$BACKUP_USR_ROOT"
-    cp -r "$SOURCE/configs" "$BACKUP_USR_ROOT"
     cp "$SOURCE/README.md" "$BACKUP_USR_ROOT"
     cp "$SOURCE/upgrade.sh" "$BACKUP_USR_ROOT"
     cp "$SOURCE/installer.sh" "$BACKUP_USR_ROOT"
