@@ -1,3 +1,6 @@
 - Version should be tagged with commit hash if possible
+- Backup should auto detect what to backup with blacklists.
+  - apt-packages are going to need to be configured
+  - deb packages (locally installed) can be generated
 - Create release
 - Test
