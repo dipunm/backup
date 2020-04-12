@@ -1,6 +1,3 @@
-- Move configuration to configs folder and plan user flow for recipe installation + configuration
-- Backups should transfer configs to $DIR_STORE if needed for restoring
-- Restore should load configs from $DIR_STORE folder
-- recipe configs will live in /configs and will follow convention: "r_${recipe}.conf"
+- Version should be tagged with commit hash if possible
 - Create release
 - Test
