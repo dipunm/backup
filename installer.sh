@@ -46,8 +46,8 @@ copy_files() {
     hash="$(date '+%s')"
     mkdir -p "$SOURCE/configs"
     rsync -rba --suffix=".backup${hash}" "$SOURCE/configs/files-from.list.d" "$BACKUP_USR_ROOT/configs"
-    cp -n "$SOURCE/configs/files-from.list" "$BACKUP_USR_ROOT"
-    cp -n "$SOURCE/configs/main.conf" "$BACKUP_USR_ROOT"
+    cp -n "$SOURCE/configs/files-from.list" "$BACKUP_USR_ROOT/configs"
+    cp -n "$SOURCE/configs/main.conf" "$BACKUP_USR_ROOT/configs"
 
     cp -r "$SOURCE/src" "$BACKUP_USR_ROOT"
     cp "$SOURCE/README.md" "$BACKUP_USR_ROOT"
