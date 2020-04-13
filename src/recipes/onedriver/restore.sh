@@ -1,5 +1,7 @@
 #!/bin/bash
 
+[ -f "$DIR_STORE/onedriver.conf" ] && . "$DIR_STORE/onedriver.conf"
+
 get_deb_url() {
   curl --silent "https://api.github.com/repos/$1/releases/latest" | # Get latest release from GitHub api
     grep '"browser_download_url":' |

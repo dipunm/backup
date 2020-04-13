@@ -1,6 +1,6 @@
 #!/bin/bash
 
-. "$SRC_CONFIG"
+[ -f "$DIR_STORE/dotnetcore.conf" ] && . "$DIR_STORE/dotnetcore.conf"
 
 for i in "${!dotnet_sources[@]}";
 do
