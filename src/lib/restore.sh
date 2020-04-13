@@ -38,6 +38,9 @@ extract_store() {
 }
 
 restore_recipes() {
+	# reload config file to refresh list of recipes to execute
+	[ RESTORE_ALL = 'true' ] && load_config main.conf
+
 	export skipped_recipes=()
 	echo $'\n'"# Restoring recipes"
 	for recipe in "${RECIPES[@]}"

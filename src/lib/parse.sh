@@ -37,6 +37,7 @@ parse_restore_args() {
   case $2 in
   -a|--all)
     export RESTORE_MODE='all'
+    export RESTORE_ALL='true'
   ;;
   -f|--files-only)
     export RESTORE_MODE='files'
@@ -44,6 +45,7 @@ parse_restore_args() {
   -r|--recipes)
     export RESTORE_MODE='recipe'
     if [ $3 = '*' ]; then
+      export RESTORE_ALL='true'
       # RECIPES will be loaded by config
       return;
     fi
