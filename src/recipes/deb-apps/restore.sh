@@ -1,6 +1,6 @@
 #!/bin/bash
 
-which gdebi > /dev/null || sudo apt install gdebi
+which gdebi > /dev/null || sudo apt update && sudo apt install gdebi
 
 . "$DIR_STORE/debs.conf"
 
