@@ -12,5 +12,5 @@ if [ -z "$packages" ]; then
     exit 1
 fi
 
-
+sudo apt update
 sudo apt install ${packages[@]}
