@@ -31,5 +31,7 @@ Options:
                         to restore any recipes.
 
   -r, --recipes A B     Restores the named recipes from the archive.
+                        Run all recipes configured in the backup by 
+                        passing the value: \"all\"
 "
 }

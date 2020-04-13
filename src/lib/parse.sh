@@ -44,7 +44,7 @@ parse_restore_args() {
   ;;
   -r|--recipes)
     export RESTORE_MODE='recipe'
-    if [ $3 = '*' ]; then
+    if [ $3 = 'all' ]; then
       export RESTORE_ALL='true'
       # RECIPES will be loaded by config
       return;
@@ -55,6 +55,7 @@ parse_restore_args() {
   ;;
   *)
     echo_err "invalid option: '$2'."
+    echo "If you want to do a full restore, provide the --all flag."
     echo "Try '$0 --help' for more information."$'\n'
     exit 1
   ;;
