@@ -4,3 +4,4 @@
   - deb packages (locally installed) can be generated
 - Create release
 - Test
+- Error if backup files found (*.backup{hash}) to ensure user knows what they are backing up.
