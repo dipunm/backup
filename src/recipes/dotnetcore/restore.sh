@@ -1,6 +1,6 @@
 #!/bin/bash
 
-. ./default.conf
+. $SRC_CONFIG
 
 for i in "${!dotnet_sources[@]}";
 do
