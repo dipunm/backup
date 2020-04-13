@@ -49,7 +49,7 @@ parse_restore_args() {
     fi
 
     # [3...N]=recipeNames,
-    RECIPES=${@:3}
+    RECIPES="${@:3}"
   ;;
   *)
     echo_err "invalid option: '$2'."
