@@ -41,7 +41,7 @@ build_whitelist() {
 	cat "$source" > "$dest"
 	for list in "${BACKUP_LISTS[@]}"
 	do
-		file="$list.list"
+		file="${source}.d/${list}.list"
 		[ -f "$file" ] && echo $'\n'"$(cat "$file")" >> "$dest"
 	done
 
