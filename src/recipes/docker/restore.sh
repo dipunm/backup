@@ -1,6 +1,7 @@
 #!/bin/bash
 latest_supported_lts_codename='bionic'
 
+sudo apt-get update
 sudo apt-get install \
     apt-transport-https \
     ca-certificates \
