@@ -6,7 +6,7 @@ restore_recipe_single() {
 		echo_err "$recipe: could not find recipe" && return
 
 	tput sc
-	continue_prompt "restoring: $recipe."
+	[ "$FLOW" = "controlled" ] || continue_prompt "restoring: $recipe."
 		
 	(
 		export DIR_STORE="$dir_recipes_store/$recipe"
