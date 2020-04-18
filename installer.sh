@@ -27,47 +27,29 @@ case "$(basename "$SHELL")" in
     ;;
 esac
 
-install_recipes() {
-    for conf in "$BACKUP_USR_ROOT/src/recipes"/*;
-    do
-        # unsupported package names
-        [ "$conf" = "main" ] && continue;
-        [ "$conf" = "files-from" ] && continue;
-        
-        if [ -f "$conf/default.conf" ]; then
-            recipe="$(basename "$conf")"
-            # copies without overwriting.
-            cp -n "$conf/default.conf" "$BACKUP_USR_ROOT/configs/r_${recipe}.conf"
-        fi
-    done
-}
-
 copy_files() {
     hash="$(date '+%s')"
     mkdir -p "$SOURCE/configs"
-    rsync -rba --suffix=".backup${hash}" "$SOURCE/configs/files-from.list.d" "$BACKUP_USR_ROOT/configs"
-    cp -n "$SOURCE/configs/files-from.list" "$BACKUP_USR_ROOT/configs"
     cp -n "$SOURCE/configs/main.conf" "$BACKUP_USR_ROOT/configs"
+    cp "$SOURCE/configs/main.example.conf" "$BACKUP_USR_ROOT/configs"
 
     cp -r "$SOURCE/src" "$BACKUP_USR_ROOT"
     cp "$SOURCE/README.md" "$BACKUP_USR_ROOT"
     cp "$SOURCE/upgrade.sh" "$BACKUP_USR_ROOT"
     cp "$SOURCE/installer.sh" "$BACKUP_USR_ROOT"
     cp "$SOURCE/LICENSE" "$BACKUP_USR_ROOT"
-    
-    cp -r "$SOURCE/src/recipes" "$BACKUP_USR_ROOT"
 }
 
 download() {
-    # Downloader downloads from master for now
+    # Downloader downloads from branch: auto_restore for now
     tmp_dir=".tmp_$(date '+%s')"
     tmp_dir=~/"$tmp_dir"
     mkdir -p $tmp_dir
     trap "rm -rf $tmp_dir" EXIT
 
-    wget -O "$tmp_dir/backup-master.tar.gz" "https://github.com/dipunm/backup/archive/master.tar.gz" && \
-    tar -xzf "$tmp_dir/backup-master.tar.gz"  -C "$tmp_dir" backup-master
-    SOURCE="$tmp_dir/backup-master"
+    wget -O "$tmp_dir/backup-auto_restore.tar.gz" "https://github.com/dipunm/backup/archive/backup-auto_restore.tar.gz" && \
+    tar -xzf "$tmp_dir/backup-auto_restore.tar.gz"  -C "$tmp_dir" backup-auto_restore
+    SOURCE="$tmp_dir/backup-auto_restore"
     # End Downloader
 }
 
@@ -83,7 +65,7 @@ echo "
 ==> MyBackup will be installed to '$BACKUP_USR_ROOT'.
 " && pause_continue
 
-mkdir -p "$BACKUP_USR_ROOT" && copy_files && install_recipes && echo "
+mkdir -p "$BACKUP_USR_ROOT" && copy_files && echo "
 Files installed successfully.
 "
 

@@ -1,7 +1,7 @@
 # Backup tool
 This tool is designed to make backup and restores easier in linux applications. 
 Currently it has been designed for Ubuntu, but hopefully as it gains adoption, it
-can become friendly for many other desktop linux distributions.
+can become friendly for many other desktop linux distributions. Contributions are welcome.
 
 ## Install
 ```bash
@@ -15,12 +15,9 @@ The executable is installed to `$BACKUP_USR_ROOT/src/main.sh` but symlinked from
 By default, `$BACKUP_USR_ROOT` = `~/.backup`.
 
 ## Configuration
-After installation, you will need to configure the application. 
-You can find your configuration files by visiting: `$BACKUP_USR_ROOT/configs`
+There is currently no configuration available. This package will autodetect what to pack and unpack.
 
-> TIP: r_*.conf files are recipe specific configs. They will likely have comments that
-are useful to read. Also, they may have documentation in 
-`$BACKUP_USR_ROOT/recipes/*/README.md`
+You can specify a whitelist of parcels to unpack when restoring. Run `mbkp --help` for details.
 
 ## Work in progress
 see: [TODO](TODO.md)
