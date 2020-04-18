@@ -1,3 +1,3 @@
 #!/bin/bash
 
-which dconf
+which dconf >/dev/null

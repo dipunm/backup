@@ -61,7 +61,6 @@ compare_sources() {
     done
 }
 
-print_
 print_compare_results() {
     echo "\
 # Modify, save and exit to continue.
