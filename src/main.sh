@@ -25,8 +25,30 @@ init_dirs() {
     mkdir -p "$DIR_TMP"; mkdir -p "$DIR_PARCELS" 
 }
 
-detect_packers() {
+detect_packers_for_backup() {
     echo $'\n'"detecting appropriate packers."$'\n'
+    local all_packers=()
+    mapfile -t all_packers <<< $( ls "$1" | sort -V )
+    for packer in "${all_packers[@]}"; do
+        packer="$1/$packer"
+        local basename_packer="$(basename "$packer")"
+        local friendly_name="$( head -n 1 $packer/name 2>/dev/null )"
+        local key="${friendly_name:-$key}"      
+        
+        if [ -f "$packer/detect.sh" ]; then
+            (
+                export SRC_CONFIG="$DIR_TMP_CONTAINER/configs/$name.conf"
+                trap "rm $SRC_CONFIG" EXIT
+                echo "${configs["$name"]}" > "$SRC_CONFIG"
+                "$packer/detect.sh"
+            ) && \
+            packers["$key"]="$packer" && \
+            packers_inorder+=( "$key" )
+            
+        fi
+    done
+}
+
     local all_packers=()
     mapfile -t all_packers <<< $( ls "$1" | sort -V )
     for packer in "${all_packers[@]}"; do
@@ -36,12 +58,7 @@ detect_packers() {
         local key="${friendly_name:-"$basename_packer"}"
 
         if [ -f "$packer/scripts/detect.sh" ]; then
-            "$packer/scripts/detect.sh" && packers["$key"]="$packer/scripts"
-            packers_inorder+=( "$key" )
-        elif [ -f "$packer/detect.sh" ]; then
-            friendly_name="$( head -n 1 $packer/name 2>/dev/null )"
-            key="${friendly_name:-$key}"      
-            "$packer/detect.sh" && packers["$key"]="$packer"
+            packers["$key"]="$packer/scripts"
             packers_inorder+=( "$key" )
         fi
     done
@@ -85,7 +102,7 @@ backup() {
     DIR_OUTPUT="${DIR_OUTPUT:-$(pwd)}"
     declare -A packers=()
     packers_inorder=()
-    detect_packers "$BACKUP_USR_ROOT/src/packers"
+    detect_packers_for_backup "$BACKUP_USR_ROOT/src/packers"
 
     # By copying packers to the parcel before executing, the scripts 
     # for backup and restore can become similar
@@ -103,7 +120,7 @@ backup() {
             echo "packing: $name"
             echo "=================="$'\n'
             ( # brackets create a subshell with a contained scope.
-                SRC_CONFIG="$DIR_TMP_CONTAINER/configs/$name.conf"
+                export SRC_CONFIG="$DIR_TMP_CONTAINER/configs/$name.conf"
                 trap "rm $SRC_CONFIG" EXIT
                 echo "${configs["$name"]}" > "$SRC_CONFIG"
                 export DIR_STORE="$DIR_PARCELS/$name/store"
