@@ -66,8 +66,21 @@ arr_contains() {
     return 1
 }
 
+build_configs() {
+    local section=''
+    while read -r line; do
+        if ( echo -n "$line" | grep -E "^\|[^#]+\|" )>/dev/null; then
+            section="$( echo $line | sed -rE 's/^\|([^#]+)\|.*$/\1/' )";
+        elif [ -n "$section" ]; then
+            configs["$section"]="${configs["$section"]}"$'\n'"$line"
+        fi
+    done < "$1"
+}
+
 backup() {
     init_dirs;
+    declare -A configs=()
+    build_configs "$BACKUP_USR_ROOT/configs/main.conf"
 
     DIR_OUTPUT="${DIR_OUTPUT:-$(pwd)}"
     declare -A packers=()
@@ -90,6 +103,9 @@ backup() {
             echo "packing: $name"
             echo "=================="$'\n'
             ( # brackets create a subshell with a contained scope.
+                SRC_CONFIG="$DIR_TMP_CONTAINER/configs/$name.conf"
+                trap "rm $SRC_CONFIG" EXIT
+                echo "${configs["$name"]}" > "$SRC_CONFIG"
                 export DIR_STORE="$DIR_PARCELS/$name/store"
                 export DIR_PACKER="$packer"
                 mkdir -p "$DIR_STORE"

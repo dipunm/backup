@@ -1,6 +1,10 @@
 #!/bin/bash
 
-[ -f "$DIR_STORE/onedriver.conf" ] && . "$DIR_STORE/onedriver.conf"
+read -r "$DIR_STORE/path" path
+if [ -n "$path" ]; then
+    # eval ensures variables get expanded.
+    export MOUNTPOINT="$(eval echo "$path")"
+fi
 
 get_deb_url() {
   curl --silent "https://api.github.com/repos/$1/releases/latest" | # Get latest release from GitHub api
