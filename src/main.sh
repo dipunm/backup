@@ -88,6 +88,7 @@ backup() {
 
         if [ -f "$packer/pack.sh" ]; then
             echo "packing: $name"
+            echo "=================="$'\n'
             ( # brackets create a subshell with a contained scope.
                 export DIR_STORE="$DIR_PARCELS/$name/store"
                 export DIR_PACKER="$packer"
@@ -101,8 +102,9 @@ backup() {
                     { echo "exited with code $e_code."; continue_prompt; } 
 
                 exit "$e_code";
-            ) | sed "s/^/    /g"
-            [ "${PIPESTATUS[0]}" = "0" ] || failures+=( "$name" )
+            )
+            [ "$?" = "0" ] || failures+=( "$name" )
+            echo;
         fi
     done
     if [ "${#failures[@]}" -gt "0" ]; then
@@ -147,6 +149,7 @@ restore() {
         packer="${packers["$name"]}"
         if [ -f "$packer/unpack.sh" ]; then
             echo "unpacking: $name"
+            echo "=================="$'\n'
             ( # brackets create a subshell with a contained scope.
                 export DIR_STORE="$DIR_PARCELS/$name/store"
                 export DIR_PACKER="$packer"
@@ -160,8 +163,9 @@ restore() {
                     { echo "exited with code $e_code."; continue_prompt; } 
 
                 exit "$e_code";
-            ) | sed "s/^/    /g"
-            [ "${PIPESTATUS[0]}" = "0" ] || failures+=( "$name" )
+            )
+            [ "$?" = "0" ] || failures+=( "$name" )
+            echo;
         fi
     done
     if [ "${#failures[@]}" -gt "0" ]; then

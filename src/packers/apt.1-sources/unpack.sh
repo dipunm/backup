@@ -38,27 +38,30 @@ read_sources() {
 }
 
 compare_sources() {
-    for store_line in "${store_sources[@]}"; do
-        has_dup="false"
+        for store_line in "${store_sources[@]}"; do
+        local has_dup="false"
+        local has_alt="false"
         for os_line in "${os_sources[@]}"; do
             if [ "$store_line" = "$os_line" ]; then
-                has_dupe="true"
+                has_dup="true"
+                has_alt="false"
                 duplicates+=( "$store_line" )
-                unset $altsuite_repos["$store_line"]
-                continue
+                unset altsuite_repos["$store_line"]
+                break;
             fi
 
             store_segments=( $store_line )
             os_segments=( $os_line )
             if [ "${store_segments[0]} ${store_segments[1]} ${store_segments[3]}" = "${os_segments[0]} ${os_segments[1]} ${os_segments[3]}" ]; then
                 altsuite_repos["$store_line"]="${altsuite_repos["$store_line"]} ${os_segments[2]}"
-                has_dupe="true"
+                has_alt="true"
             fi    
         done
-        if [ "$has_dup" = "false" ]; then
+        if [ "$has_dup" = "false" ] && [ "$has_alt" = "false" ]; then
             new_repos+=( "$store_line" )
         fi
     done
+
 }
 
 print_compare_results() {
@@ -137,29 +140,41 @@ merge_main_sources() {
     editor "$DIR_TMP/sources_whitelist"
 
     echo $'\n'"adding new repositories"
-    while read -r line ; do
-        sudo add-apt-repository "$line"
-    done <<< $( grep '^\s*deb\s' "$DIR_TMP/sources_whitelist" | sed 's/#.*//' )
+    repos_to_install="$( grep '^\s*deb\s' "$DIR_TMP/sources_whitelist" | sed 's/#.*//' | grep -v -e '^\s*$' )"
+    if [ -n "$repos_to_install" ]; then
+        while read -r line ; do
+            sudo add-apt-repository "$line"
+        done <<< "$repos_to_install"
+    else
+        echo "no new repositories to install."
+    fi
 }
 
 main() {
     local b_suffix=".backup$(date '+%s')"
+    local b_dir=/etc/apt/backups
 
-    echo $'\n'"restoring keys"
-    rsync -b suffix=".$b_suffix" $DIR_STORE/trusted.gpg.d /etc/apt
+    sudo mkdir -p "$b_dir"
+    echo "restoring keys"
+    sudo rsync -rb --backup-dir="$b_dir" $DIR_STORE/trusted.gpg.d /etc/apt
     # it is safe to have duplicate keys, so we'll just add a new key file without
     # touching the original trusted.gpg file.
+    [ -f "$DIR_STORE/trusted.gpg" ] && \
     sudo cp $DIR_STORE/trusted.gpg "/etc/apt/trusted.gpg.d/restored_$(date '+%s').gpg"
+    echo "done."$'\n'
 
-    echo $'\n'"restoring sources"
+    echo "restoring sources"
     echo "the following source-list files will be installed:"
     ls -1 "$DIR_STORE/sources.list.d"
     read -rs -d '' -t 0.1
     read -rsn1 -p "Press any key to continue"$'\n'
-    sudo rsync -b suffix=".$backup_key" $DIR_STORE/sources.list.d/* /etc/apt/sources.list.d
-    
-    sudo cp "/etc/apt/sources.list" "/etc/apt/sources.list${b_suffix}"
+    sudo rsync -ab --backup-dir="$b_dir" "$DIR_STORE/sources.list.d" /etc/apt
+
+    read -rs -d '' -t 0.1
+    read -rsn1 -p "Ready to merge the main sources.list file. Press any key to continue"$'\n'
+    sudo cp "/etc/apt/sources.list" "$b_dir"
     merge_main_sources
+    echo "done."$'\n'
 
     sudo apt update
 }

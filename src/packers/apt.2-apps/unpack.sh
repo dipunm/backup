@@ -3,8 +3,8 @@
 installed=( $( apt-mark showmanual ) )
 packages=( $( cat "$DIR_STORE/packages" | sed 's/#.*//' ) )
 new=( $( echo "${installed[@]} ${packages[@]}" | tr ' ' '\n' | sort | uniq -u ) )
-if [ "${#new[@]}" = "0" ] then
-    exit 0
+if [ "${#new[@]}" = "0" ]; then
+    exit 0;
 fi
 
 echo "The following packages will be installed (count: ${#new[@]}):
