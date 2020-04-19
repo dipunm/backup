@@ -1,5 +1,6 @@
-- don't indent packer output (not good for interactive)
 - port more 'recipes' to 'packers' 
+- port files-from lists to packers
+- figure out config mechanism
 - Version should be tagged with commit hash if possible
 - Whitelist/Blacklist feature
 - Document packer/parcel terminology
