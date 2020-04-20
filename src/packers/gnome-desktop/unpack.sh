@@ -13,7 +13,6 @@ ask_backup() {
 }
 
 rsync -rab --backup-dir=~/.local/backup "$DIR_STORE/.local/share" ~/.local
-rsync -rab --backup-dir=~/.local/backup "$DIR_STORE/.config/autostart" ~/.config
 if ask_backup; then
     path=~/user.dconf~
     dconf dump / > "$path"
