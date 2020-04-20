@@ -37,6 +37,11 @@ sudo gdebi $DIR_TMP/onedriver_amd64.deb
 mkdir -p $MOUNTPOINT
 export SERVICE_NAME=$(systemd-escape --template onedriver@.service $MOUNTPOINT)
 
+if [ -f "$DIR_STORE/auth_tokens.json" ]; then
+    mkdir -p ~/.cache/onedriver
+    cp "$DIR_STORE/auth_tokens.json" ~/.cache/onedriver
+fi
+
 # mount onedrive
 systemctl --user daemon-reload
 systemctl --user start $SERVICE_NAME

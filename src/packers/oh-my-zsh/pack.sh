@@ -1,5 +1,7 @@
 #!/bin/bash
 
+cp "$SRC_CONFIG" "$DIR_STORE/config"
+
 echo $ZSH > "$DIR_STORE/ZSH"
 mkdir -p "$DIR_STORE/home"
 mkdir -p "$DIR_STORE/omz"
