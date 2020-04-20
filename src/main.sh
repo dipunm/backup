@@ -22,7 +22,7 @@ init_dirs() {
     
     cleanup_message=$(echo "cleaning up temporary files."$'\n')
     trap "echo '$cleanup_message'; rm -rf '$DIR_TMP_CONTAINER'" EXIT
-    mkdir -p "$DIR_TMP"; mkdir -p "$DIR_PARCELS" 
+    mkdir -p "$DIR_TMP"; mkdir -p "$DIR_PARCELS"; mkdir "$DIR_TMP_CONTAINER/configs";
 }
 
 detect_packers_for_backup() {
@@ -33,13 +33,13 @@ detect_packers_for_backup() {
         packer="$1/$packer"
         local basename_packer="$(basename "$packer")"
         local friendly_name="$( head -n 1 $packer/name 2>/dev/null )"
-        local key="${friendly_name:-$key}"      
+        local key="${friendly_name:-$basename_packer}"
         
         if [ -f "$packer/detect.sh" ]; then
             (
-                export SRC_CONFIG="$DIR_TMP_CONTAINER/configs/$name.conf"
+                export SRC_CONFIG="$DIR_TMP_CONTAINER/configs/$key.conf"
                 trap "rm $SRC_CONFIG" EXIT
-                echo "${configs["$name"]}" > "$SRC_CONFIG"
+                echo "${configs["$key"]}" > "$SRC_CONFIG"
                 "$packer/detect.sh"
             ) && \
             packers["$key"]="$packer" && \
@@ -49,6 +49,7 @@ detect_packers_for_backup() {
     done
 }
 
+detect_packers() {
     local all_packers=()
     mapfile -t all_packers <<< $( ls "$1" | sort -V )
     for packer in "${all_packers[@]}"; do
