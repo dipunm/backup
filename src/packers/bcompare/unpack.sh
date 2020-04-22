@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if ! which bcompare; then
+if ! which bcompare >/dev/null; then
     wget -O- https://www.scootersoftware.com/bcompare-4.3.4.24657_amd64.deb > "$DIR_TMP/bcompare-4.3.4.24657_amd64.deb"
     sudo apt-get update
     which gdebi >/dev/null || sudo apt-get install gdebi-core -y

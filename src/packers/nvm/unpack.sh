@@ -1,6 +1,6 @@
 #!/bin/bash
 
-[ -f "$DIR_STORE/nvm.conf" ] && . "$DIR_STORE/nvm.conf"
+read -r "$DIR_STORE/NVM_DIR.env" NVM_DIR
 
 get_latest_release() {
   curl --silent "https://api.github.com/repos/$1/releases/latest" | # Get latest release from GitHub api

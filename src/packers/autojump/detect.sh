@@ -1,3 +1,3 @@
 #!/bin/bash
 
-which autojump
+which autojump >/dev/null
