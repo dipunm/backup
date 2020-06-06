@@ -1,7 +1,8 @@
+- port more 'recipes' to 'packers' 
+- port files-from lists to packers
+- figure out config mechanism
 - Version should be tagged with commit hash if possible
-- Backup should auto detect what to backup with blacklists.
-  - apt-packages are going to need to be configured
-  - deb packages (locally installed) can be generated
-- Create release
-- Test
-- Error if backup files found (*.backup{hash}) to ensure user knows what they are backing up.
+- Whitelist/Blacklist feature
+- Document packer/parcel terminology
+- non-interactive restore?
+- tee: for log files?

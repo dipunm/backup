@@ -5,4 +5,4 @@ BACKUP_INSTALL_OVERRIDE="don't install"
 . "$BACKUP_USR_ROOT/installer.sh"
 
 download
-copy_files && install_recipes
+copy_files

@@ -1,19 +1,44 @@
-import() { 
-	for path in "$@"
-	do
-		. "$BACKUP_USR_ROOT/src/${path}.sh"
-	done
+continue_prompt() {
+  # discard user input from buffer before accepting confirmation.
+  read -rs -d '' -t 0.1
+  # Optional custom message
+  [ -n "$1" ] && echo -n "$1 "
+	read -rsn1 -p "Press any key to continue..."$'\n'
 }
 
-mk_dir_tmp() {
-  local name="backup_tmp.$(date +'%s')"
-  dir_tmp="$BACKUP_USR_ROOT/$name"
-	
-  rm -rf "$dir_tmp"
-	mkdir "$dir_tmp"
+echo_err() {
+  echo $* >&2
 }
 
-load_config() {
-  assert_file "$dir_config/$1" "config"
-  . "$dir_config/$1"
+join_by() { 
+  local IFS="$1" 
+  shift
+  echo "$*" 
+}
+
+ask() {
+  case "$1" in
+    -y)
+      read -r -p "$2 [Y/n]: " response
+      case "$response" in
+        [nN][oO]|[nN])
+          return 1
+        ;;
+        *)
+          return 0
+        ;;
+      esac  
+    ;;
+    *)
+      read -r -p "${2:-1} [y/N]: " response
+      case "$response" in
+        [yY][eE][sS]|[yY])
+          return 0
+        ;;
+        *)
+          return 1
+        ;;
+      esac
+    ;;
+  esac
 }
