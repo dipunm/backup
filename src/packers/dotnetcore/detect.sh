@@ -1,3 +1,3 @@
 #!/bin/bash
 
-which dotnet
+which dotnet >/dev/null
