@@ -41,15 +41,15 @@ copy_files() {
 }
 
 download() {
-    # Downloader downloads from branch: auto_restore for now
+    # Downloader downloads from branch: master for now
     tmp_dir=".tmp_$(date '+%s')"
     tmp_dir=~/"$tmp_dir"
     mkdir -p $tmp_dir
     trap "rm -rf $tmp_dir" EXIT
 
-    wget -O "$tmp_dir/backup-auto_restore.tar.gz" "https://github.com/dipunm/backup/archive/backup-auto_restore.tar.gz" && \
-    tar -xzf "$tmp_dir/backup-auto_restore.tar.gz"  -C "$tmp_dir" backup-auto_restore
-    SOURCE="$tmp_dir/backup-auto_restore"
+    wget -O "$tmp_dir/backup-master.tar.gz" "https://github.com/dipunm/backup/archive/backup-master.tar.gz" && \
+    tar -xzf "$tmp_dir/backup-master.tar.gz"  -C "$tmp_dir" backup-master
+    SOURCE="$tmp_dir/backup-master"
     # End Downloader
 }
 
