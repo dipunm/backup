@@ -29,7 +29,7 @@ esac
 
 copy_files() {
     hash="$(date '+%s')"
-    mkdir -p "$SOURCE/configs"
+    mkdir -p "$BACKUP_USR_ROOT/configs"
     cp -n "$SOURCE/configs/main.conf" "$BACKUP_USR_ROOT/configs"
     cp "$SOURCE/configs/main.example.conf" "$BACKUP_USR_ROOT/configs"
 
