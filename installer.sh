@@ -47,7 +47,7 @@ download() {
     mkdir -p $tmp_dir
     trap "rm -rf $tmp_dir" EXIT
 
-    wget -O "$tmp_dir/backup-master.tar.gz" "https://github.com/dipunm/backup/archive/backup-master.tar.gz" && \
+    wget -O "$tmp_dir/backup-master.tar.gz" "https://github.com/dipunm/backup/archive/master.tar.gz" && \
     tar -xzf "$tmp_dir/backup-master.tar.gz"  -C "$tmp_dir" backup-master
     SOURCE="$tmp_dir/backup-master"
     # End Downloader
