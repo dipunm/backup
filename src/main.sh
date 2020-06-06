@@ -125,7 +125,7 @@ backup() {
                 trap "rm $SRC_CONFIG" EXIT
                 echo "${configs["$name"]}" > "$SRC_CONFIG"
                 export DIR_STORE="$DIR_PARCELS/$name/store"
-                export DIR_PACKER="$packer"
+                export DIR_WORKING="$packer"
                 mkdir -p "$DIR_STORE"
                 "$packer/pack.sh"
                 
@@ -186,7 +186,7 @@ restore() {
             echo "=================="$'\n'
             ( # brackets create a subshell with a contained scope.
                 export DIR_STORE="$DIR_PARCELS/$name/store"
-                export DIR_PACKER="$packer"
+                export DIR_WORKING="$packer"
                 mkdir -p "$DIR_STORE"
                 "$packer/unpack.sh"
                 

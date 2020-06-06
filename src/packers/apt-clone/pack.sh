@@ -1,4 +1,5 @@
 #!/bin/bash
+
 . "$SRC_CONFIG"
 
 [ "$dpkg_repack" = "true" ] && \
