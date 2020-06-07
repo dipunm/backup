@@ -1,6 +1,6 @@
 #!/bin/bash
 
-read -r "$DIR_STORE/NVM_DIR.env" NVM_DIR
+read -r NVM_DIR < "$DIR_STORE/NVM_DIR.env"
 
 get_latest_release() {
   curl --silent "https://api.github.com/repos/$1/releases/latest" | # Get latest release from GitHub api

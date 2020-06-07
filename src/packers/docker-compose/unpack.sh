@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if [ -f "$DIR_STORE/install_dir" ]; then
-    install_dir=$( read -r $DIR_STORE/install_dir )
+    read -r install_dir < "$DIR_STORE/install_dir"
 fi
 
 : ${install_dir:="/usr/local/bin"}

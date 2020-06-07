@@ -1,6 +1,6 @@
 #!/bin/bash
 
-read -r "$DIR_STORE/path" path
+read -r path < "$DIR_STORE/path"
 if [ -n "$path" ]; then
     # eval ensures variables get expanded.
     export MOUNTPOINT="$(eval echo "$path")"

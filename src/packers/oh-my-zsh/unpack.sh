@@ -14,7 +14,7 @@ ask() {
     esac
 }
 
-read -r "$DIR_STORE/ZSH" ZSH
+read -r ZSH < "$DIR_STORE/ZSH"
 mkdir -p "$ZSH"
 cp -r "$DIR_STORE/omz/." "$ZSH"
 cp -r "$DIR_STORE/home/." ~
