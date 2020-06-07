@@ -18,16 +18,16 @@ while true; do
    [10] Rider
   > " CODE
    case "${CODE}" in
-       IIC, 1 ) CODE=IIC; IDE=idea; break;;
-       IIU, 2 ) CODE=IIU; IDE=idea; break;;
-       PCC, 3 ) CODE=PCC; IDE=pycharm; break;;
-       PCP, 4 ) CODE=PCP; IDE=pycharm; break;;
-       CL, 5 ) CODE=CL;  IDE=clion; break;;
-       WS, 6 ) CODE=WS;  IDE=webstorm; break;;
-       RM, 7 ) CODE=RM;  IDE=rubymine; break;;
-       PS, 8 ) CODE=PS;  IDE=phpstorm; break;;
-       DG, 9 ) CODE=DG;  IDE=datagrip; break;;
-       RD, 10 ) CODE=RD;  IDE=rider; break;;
+       IIC | 1 ) CODE=IIC; IDE=idea; break;;
+       IIU | 2 ) CODE=IIU; IDE=idea; break;;
+       PCC | 3 ) CODE=PCC; IDE=pycharm; break;;
+       PCP | 4 ) CODE=PCP; IDE=pycharm; break;;
+       CL | 5 ) CODE=CL;  IDE=clion; break;;
+       WS | 6 ) CODE=WS;  IDE=webstorm; break;;
+       RM | 7 ) CODE=RM;  IDE=rubymine; break;;
+       PS | 8 ) CODE=PS;  IDE=phpstorm; break;;
+       DG | 9 ) CODE=DG;  IDE=datagrip; break;;
+       RD | 10 ) CODE=RD;  IDE=rider; break;;
    esac
 done
 
