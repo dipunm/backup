@@ -3,13 +3,13 @@
 . "$DIR_STORE/config"
 
 ask() {
-    read -r -p $1 response
+    read -r -p "$1" response
     case "$response" in
-    [Yy][Ee][Ss]|[Yy])
-        return 0
+    [Nn][Oo]|[Nn])
+        return 1
     ;;
     *)
-        return 1
+        return 0
     ;;
     esac
 }
