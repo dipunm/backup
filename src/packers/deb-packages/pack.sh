@@ -4,7 +4,16 @@ cp "$SRC_CONFIG" "$DIR_STORE/debs.conf"
 
 . "$DIR_STORE/debs.conf"
 
-for deb in "${debs[@]}"
+for package in $REPACK; do
+    # each entry goes to a unique folder to avoid name conflicts.
+    outdir="$DIR_STORE/$(date '+%s')"
+    
+    pushd "$outdir"
+    dpkg-repack $package
+    popd
+done
+
+for deb in "${SOURCES[@]}"
 do
     # each entry goes to a unique folder to avoid name conflicts.
     outdir="$DIR_STORE/$(date '+%s')"
