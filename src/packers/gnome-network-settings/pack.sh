@@ -2,10 +2,10 @@
 
 . "$SRC_CONFIG"
 system_connections="/etc/NetworkManager/system-connections"
+mkdir "$DIR_STORE/system-connections"
 
 if [ "${#backup_networks[@]}" -gt "0" ]; then
 
-    mkdir "$DIR_STORE/system-connections"
     sudo chmod --reference="$system_connections" "$DIR_STORE/system-connections"
     sudo chown "$USER":"$USER" "$DIR_STORE/system-connections"
 
