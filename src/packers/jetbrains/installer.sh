@@ -1,6 +1,6 @@
-#!/bin/sh
+#!/bin/bash
+# original-source: https://breandan.net/2014/08/18/shell-script/
 
-# We need root to install
 CODE="$1"
 
 # Prompt for edition
@@ -43,9 +43,10 @@ FILE_URL=$(echo "$LOCATION" | sed 's/.*Location: //')
 VERSION=$(echo "$FILE_URL" | sed -En 's/.*\/(.*).tar.gz/\1/p')
 echo "File to be downloaded: $FILE_URL"
 echo "Latest stable version: $VERSION"
+[ -z "$VERSION" ] && echo "Version header not found. Exiting." && exit 1;
 
 # Set install directory
-INSTALL_DIR="$HOME/.local/share/JetBrains/Toolbox/apps/$VERSION"
+INSTALL_DIR="/opt/$VERSION"
 
 # Check if latest version has been installed
 if [ -d "$INSTALL_DIR" ]; then
@@ -75,7 +76,7 @@ if [ -d "$INSTALL_DIR" ]; then
 fi
 
 # Untar file
-if mkdir ${INSTALL_DIR}; then
+if mkdir -p ${INSTALL_DIR}; then
    echo "Extracting $DEST_DIR to $INSTALL_DIR"
    tar -xzf ${DEST_DIR} -C ${INSTALL_DIR} --strip-components=1
 fi
@@ -89,19 +90,9 @@ chmod -R +rwx ${INSTALL_DIR}
 
 # Enable to add desktop shortcut
 DESK=/usr/share/applications/${IDE}.desktop
-echo "[Desktop Entry]\nEncoding=UTF-8\nName=${IDE}\nComment=${IDE}\nExec=${BIN}/${IDE}.sh\nIcon=${BIN}/${IDE}.png\nTerminal=false\nStartupNotify=true\nType=Application" -e > ${DESK}
+echo -e "[Desktop Entry]\nEncoding=UTF-8\nName=${IDE}\nComment=${IDE}\nExec=${BIN}/${IDE}.sh\nIcon=${BIN}/${IDE}.png\nTerminal=false\nStartupNotify=true\nType=Application" > ${DESK}
 
 # Create symlink entry
 TARGET=${BIN}/${IDE}.sh
 echo "Placing symbolic link to $TARGET in /usr/local/bin/"
 ln -sf ${TARGET} /usr/local/bin/${IDE}
-
-# Prompt to launch newly installed IDE
-while true; do
-   read -p "Installation complete. To launch $IDE, run: $IDE
-   Would you like to launch $IDE right now? (Y/N) > " REPLY
-   case $REPLY in
-       [yY] ) eval ${IDE}; break;;
-       [nN] ) echo "Done."; break;;
-   esac
-done
