@@ -8,8 +8,9 @@ for package in $REPACK; do
     # each entry goes to a unique folder to avoid name conflicts.
     outdir="$DIR_STORE/$(date '+%s')"
     mkdir -p "$outdir"
-    
+
     pushd "$outdir"
+    echo "re-packing $package"
     dpkg-repack $package
     popd
 done
