@@ -1,17 +1,23 @@
 #!/bin/bash
 
-installed=( $( apt-mark showmanual ) )
+# already installed packages
+installed=( $( apt-mark showmanual ) $( apt-mark showauto ) )
+# packages to restore
 packages=( $( cat "$DIR_STORE/packages" | sed 's/#.*//' ) )
-new=( $( echo "${installed[@]} ${packages[@]}" | tr ' ' '\n' | sort | uniq -u ) )
+# packages already installed
+existing=( $( echo "${installed[@]} ${packages[@]}" | tr ' ' '\n' | sort | uniq -d ) )
+# packages left to restore
+new=( $( echo "${existing[@]} ${packages[@]}" | tr ' ' '\n' | sort | uniq -u ) )
 
 if [ "${#new[@]}" = "0" ]; then
     exit 0;
 fi
 sudo apt update
 
+# wanted packages that are available to install
 available=( $( { apt-cache pkgnames && echo "${new[@]}" | tr ' ' '\n'; } | sort | uniq -d ) )
+# wanted packages that are unavailable to install
 unavailable=( $( echo "${available[@]} ${new[@]}" | tr ' ' '\n' | sort | uniq -u ) )
-
 
 if [ "${#unavailable[@]}" -gt "0" ]; then
     echo "The following packages are not available to install:"
