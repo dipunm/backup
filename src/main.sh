@@ -8,10 +8,6 @@ assert_no_sudo() {
 
 BACKUP_USR_ROOT="${BACKUP_USR_ROOT:-"$HOME/.backup"}"
 
-# For development.
-[ -n DEV_MODE ] && BACKUP_USR_ROOT="$HOME/Projects/backup"
-# For development.
-
 . "$BACKUP_USR_ROOT/src/lib/fs.sh"
 import lib/assert lib/io lib/parse lib/info
 
