@@ -1,3 +1,3 @@
 #!/bin/bash
 
-which firefox >/dev/null
+which code >/dev/null
