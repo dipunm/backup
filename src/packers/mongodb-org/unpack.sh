@@ -25,6 +25,6 @@ else
         sudo systemctl start mongod || exit
     fi
     if ask "Enable the mongod service to autostart on boot? [y/N]: "; then
-        sudo systemctl enable mongodb || exit
+        sudo systemctl enable mongod || exit
     fi
 fi
