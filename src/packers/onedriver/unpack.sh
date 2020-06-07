@@ -29,7 +29,7 @@ if ! which onedriver >/dev/null; then
 
     if ! (which gdebi>dev/null) then
         echo "installing gdebi to enable installing deb files."
-        sudo apt install gdebi
+        sudo apt install gdebi-core
     fi
 
     sudo apt install libwebkit2gtk-4.0-dev

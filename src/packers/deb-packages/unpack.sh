@@ -4,6 +4,8 @@ which gdebi > /dev/null || sudo apt update && sudo apt install gdebi-core
 
 . "$DIR_STORE/debs.conf"
 
+which gdebi >/dev/null || sudo apt-get install gdebi-core -y    
+
 for deb in "${SOURCES[@]}"
 do
     if [[ "$deb" =~ "^https?:\/\/" ]]; then
