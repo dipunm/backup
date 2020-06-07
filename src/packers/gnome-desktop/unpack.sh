@@ -4,10 +4,10 @@ ask_backup() {
     read -r -p "Would you like us to create a backup of your dconf? [y/N]: " response
     case "$response" in
     [yY][eE][sS]|[yY])
-        exit 0
+        return 0
     ;;
     *)
-        exit 1
+        return 1
     ;;
     esac
 }

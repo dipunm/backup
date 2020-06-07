@@ -22,8 +22,6 @@ if [ "${#unavailable[@]}" -gt "0" ]; then
 an apt-repository to be installed using apt-add-repository"
     read -rs -d '' -t 0.1
  	read -rsn1 -p "Press any key to continue..."$'\n'
-}
-
 fi
 
 echo "The following packages will be installed (count: ${#available[@]}):
