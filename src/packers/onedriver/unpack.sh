@@ -41,10 +41,8 @@ fi
 mkdir -p $MOUNTPOINT
 export SERVICE_NAME=$(systemd-escape --template onedriver@.service $MOUNTPOINT)
 
-if [ -f "$DIR_STORE/auth_tokens.json" ]; then
-    mkdir -p ~/.cache/onedriver
-    cp "$DIR_STORE/auth_tokens.json" ~/.cache/onedriver
-fi
+mkdir -p ~/.cache
+cp -r "$DIR_STORE/.cache/onedriver" ~/.cache
 
 # mount onedrive
 systemctl --user daemon-reload
