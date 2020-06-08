@@ -12,7 +12,7 @@ do
     fi
 done
 
-for deb in "$DIR_STORE"/**/*.deb
+for deb in "$DIR_STORE"/*/*.deb
 do
     echo "installing $(basename "$deb")"
     sudo gdebi "$deb"

@@ -3,10 +3,11 @@
 cp "$SRC_CONFIG" "$DIR_STORE/debs.conf"
 
 . "$DIR_STORE/debs.conf"
-
+i=1
 for package in "${REPACK[@]}"; do
     # each entry goes to a unique folder to avoid name conflicts.
-    outdir="$DIR_STORE/$(date '+%s')"
+    outdir="$DIR_STORE/$(date '+%s')$i"
+    i=$((I+1))
     mkdir -p "$outdir"
 
     pushd "$outdir"
