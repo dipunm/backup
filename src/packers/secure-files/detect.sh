@@ -2,4 +2,4 @@
 
 . $SRC_CONFIG
 
-[ "$enabled" = "true" ]
+[ "${#FILES[@]}" -gt 0 ]
