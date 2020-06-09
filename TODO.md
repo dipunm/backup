@@ -1,6 +1,9 @@
-- port more 'recipes' to 'packers' 
-- port files-from lists to packers
-- figure out config mechanism
+- ask for sudo at beginning
+- run apt last & run home second to last
+- create shared functions
+  - gdebi wrapper
+  - ask
+  - press to continue
 - Version should be tagged with commit hash if possible
 - Whitelist/Blacklist feature
 - Document packer/parcel terminology
