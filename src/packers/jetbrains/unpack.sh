@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cp -r "$DIR_STORE/." ~
+cp -r "$DIR_STORE/.config" ~
 
 apps=()
 mapfile -t apps < "$DIR_STORE/installed"
