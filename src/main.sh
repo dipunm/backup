@@ -160,6 +160,7 @@ backup() {
 
 restore() {
     init_dirs;
+    echo "Extracting archive..."
     tar -xzf "$ARCHIVE" -C "$DIR_TMP_CONTAINER" "parcels" "order"
     
     declare -A packers=()
