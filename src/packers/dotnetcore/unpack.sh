@@ -13,15 +13,14 @@ available=( $( { apt-cache pkgnames && echo "${to_install[@]}" | tr ' ' '\n'; } 
 unavailable=( $( echo "${available[@]} ${to_install[@]}" | tr ' ' '\n' | sort | uniq -u ) )
 
 if [ "${#unavailable[@]}" -gt "0" ]; then
-    echo "The following packages cannot be installed:"
+    echo "The following packages will not be installed:"
     for pkg in "${unavailable[@]}"; do
         echo "> $pkg"
     done
     echo; echo "This can happen for old, unsupported versions of dotnetcore.\
-    You will need to install these manually by finding sources online."
+    You will need to install these manually by finding sources online."$'\n'
 
     read -rs -d '' -t 0.1
-    read -rsn1 -p "Press any key to continue"$'\n'
 fi
 
 echo "The following package will be installed: ${available[@]}"
