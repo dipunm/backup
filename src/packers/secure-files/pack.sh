@@ -17,5 +17,5 @@ if [ "${#FILES[@]}" -gt "0" ]; then
 fi
 
 tar -cf "$TMP.tar" -C "$TMP.d" .
-gpg --symmetric --cipher-algo AES256 --output "$DIR_STORE/secure.tar.gpg" "$TMP.tar"
+gpg --symmetric --cipher-algo AES256 --pinentry-mode loopback --output "$DIR_STORE/secure.tar.gpg" "$TMP.tar"
 rm -rf "$TMP.d"
