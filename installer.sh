@@ -33,12 +33,12 @@ copy_files() {
     cp -n "$SOURCE/configs/main.conf" "$BACKUP_USR_ROOT/configs"
     cp "$SOURCE/configs/main.example.conf" "$BACKUP_USR_ROOT/configs"
 
-    cp -r "$SOURCE/src" "$BACKUP_USR_ROOT"
-    cp "$SOURCE/README.md" "$BACKUP_USR_ROOT"
-    cp "$SOURCE/upgrade.sh" "$BACKUP_USR_ROOT"
-    cp "$SOURCE/devupgrade.sh" "$BACKUP_USR_ROOT"
-    cp "$SOURCE/installer.sh" "$BACKUP_USR_ROOT"
-    cp "$SOURCE/LICENSE" "$BACKUP_USR_ROOT"
+    cp -pr "$SOURCE/src" "$BACKUP_USR_ROOT"
+    cp -p "$SOURCE/README.md" "$BACKUP_USR_ROOT"
+    cp -p "$SOURCE/upgrade.sh" "$BACKUP_USR_ROOT"
+    cp -p "$SOURCE/devupgrade.sh" "$BACKUP_USR_ROOT"
+    cp -p "$SOURCE/installer.sh" "$BACKUP_USR_ROOT"
+    cp -p "$SOURCE/LICENSE" "$BACKUP_USR_ROOT"
 }
 
 download() {
