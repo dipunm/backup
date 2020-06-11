@@ -41,15 +41,16 @@ copy_files() {
 }
 
 download() {
-    # Downloader downloads from branch: master for now
+    branch=${1-"master"}
+    # Downloader downloads from branch: master by default
     tmp_dir=".tmp_$(date '+%s')"
     tmp_dir=~/"$tmp_dir"
     mkdir -p $tmp_dir
     trap "rm -rf $tmp_dir" EXIT
 
-    wget -O "$tmp_dir/backup-master.tar.gz" "https://github.com/dipunm/backup/archive/master.tar.gz" && \
-    tar -xzf "$tmp_dir/backup-master.tar.gz"  -C "$tmp_dir" backup-master
-    SOURCE="$tmp_dir/backup-master"
+    wget -O "$tmp_dir/backup-$branch.tar.gz" "https://github.com/dipunm/backup/archive/$branch.tar.gz" && \
+    tar -xzf "$tmp_dir/backup-$branch.tar.gz"  -C "$tmp_dir" "backup-$branch"
+    SOURCE="$tmp_dir/backup-$branch"
     # End Downloader
 }
 
