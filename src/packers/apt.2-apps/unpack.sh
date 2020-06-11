@@ -26,8 +26,7 @@ if [ "${#unavailable[@]}" -gt "0" ]; then
     done
     echo "These packages may require installation from a .deb file, or \
 an apt-repository to be installed using apt-add-repository"
-    read -rs -d '' -t 0.1
- 	read -rsn1 -p "Press any key to continue..."$'\n'
+    pause.sh
 fi
 
 echo "The following packages will be installed (count: ${#available[@]}):

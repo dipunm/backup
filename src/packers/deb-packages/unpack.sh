@@ -13,8 +13,7 @@ do
     echo "> $deb"
 done
 
-read -rs -d '' -t 0.1
-read -rsn1 -p "Press any key to continue..."$'\n'
+pause.sh
 
 for deb in "${SOURCES[@]}"
 do

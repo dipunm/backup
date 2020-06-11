@@ -166,12 +166,10 @@ main() {
     echo "restoring sources"
     echo "the following source-list files will be installed:"
     ls -1 "$DIR_STORE/sources.list.d"
-    read -rs -d '' -t 0.1
-    read -rsn1 -p "Press any key to continue"$'\n'
+    pause.sh
     sudo rsync -ab --backup-dir="$b_dir" "$DIR_STORE/sources.list.d" /etc/apt
 
-    read -rs -d '' -t 0.1
-    read -rsn1 -p "Ready to merge the main sources.list file. Press any key to continue"$'\n'
+    pause.sh "Ready to merge the main sources.list file."
     sudo cp "/etc/apt/sources.list" "$b_dir"
     merge_main_sources
     echo "done."$'\n'

@@ -24,5 +24,5 @@ if [ "${#unavailable[@]}" -gt "0" ]; then
 fi
 
 echo "The following package will be installed: ${available[@]}"
-read -rsn1 -p "Press any key to continue"$'\n'
+pause.sh
 sudo apt-get install "${available[@]}" -y
