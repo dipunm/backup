@@ -15,10 +15,15 @@ init_dirs() {
     export DIR_TMP_CONTAINER="$BACKUP_USR_ROOT/backup$(date '+%s').tmp"
     export DIR_TMP="$DIR_TMP_CONTAINER/tmp"
     export DIR_PARCELS="$DIR_TMP_CONTAINER/parcels"
+    export DIR_SHARED="$DIR_TMP_CONTAINER/shared"
+
+    # Ensures the shared scripts are in the PATH within 
+    # the scope of this application.
+    export PATH="$DIR_SHARED:$PATH"
     
     cleanup_message=$(echo "cleaning up temporary files."$'\n')
     trap "echo '$cleanup_message'; rm -rf '$DIR_TMP_CONTAINER'" EXIT
-    mkdir -p "$DIR_TMP"; mkdir -p "$DIR_PARCELS"; mkdir "$DIR_TMP_CONTAINER/configs";
+    mkdir -p "$DIR_TMP"; mkdir -p "$DIR_PARCELS"; mkdir "$DIR_TMP_CONTAINER/configs"; mkdir -p "$DIR_SHARED";
 }
 
 detect_packers_for_backup() {
@@ -45,7 +50,7 @@ detect_packers_for_backup() {
     done
 }
 
-detect_packers() {
+detect_packers_to_restore() {
     local all_packers=()
     mapfile -t all_packers <<< $( ls "$1" | sort -V )
     for packer in "${all_packers[@]}"; do
@@ -69,6 +74,10 @@ cp_packers_to_parcel() {
         cp -r "$src_path/." "$dest_path" 
         packers["$name"]="$dest_path"
     done
+}
+
+cp_shared_to_parcel() {
+    cp -r "$BACKUP_USR_ROOT/src/shared/." "$DIR_SHARED"
 }
 
 arr_contains() {
@@ -104,8 +113,9 @@ backup() {
     # By copying packers to the parcel before executing, the scripts 
     # for backup and restore can become similar
     cp_packers_to_parcel;
-    local failures=()
+    cp_shared_to_parcel;
 
+    local failures=()
     echo "packers found:"; for name in "${packers_inorder[@]}"; do 
         [ -n "$name" ] && echo "> $name"; 
     done; echo; continue_prompt 
@@ -161,10 +171,10 @@ backup() {
 restore() {
     init_dirs;
     echo "Extracting archive..."
-    tar -xzf "$ARCHIVE" -C "$DIR_TMP_CONTAINER" "parcels" "order"
+    tar -xzf "$ARCHIVE" -C "$DIR_TMP_CONTAINER" "parcels" "order" "shared"
     
     declare -A packers=()
-    detect_packers "$DIR_TMP_CONTAINER/parcels"
+    detect_packers_to_restore "$DIR_TMP_CONTAINER/parcels"
     local failures=()
     local order=()
     mapfile -t order <<< $( cat "$DIR_TMP_CONTAINER/order" );

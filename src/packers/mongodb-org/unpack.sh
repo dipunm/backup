@@ -1,17 +1,5 @@
 #!/bin/bash
 
-ask() {
-    read -r -p "$1" response
-    case "$response" in
-    [Yy][Ee][Ss]|[Yy])
-        return 0
-    ;;
-    *)
-        return 1
-    ;;
-    esac
-}
-
 if which mongo; then
     echo "mongo already installed."
 else
@@ -21,10 +9,10 @@ else
     sudo apt-get install -y mongodb-org
 
     sudo systemctl daemon-reload
-    if ask "Start the mongod service now? [y/N]: "; then
+    if ask.sh -n "Start the mongod service now?"; then
         sudo systemctl start mongod || exit
     fi
-    if ask "Enable the mongod service to autostart on boot? [y/N]: "; then
+    if ask.sh -n "Enable the mongod service to autostart on boot?"; then
         sudo systemctl enable mongod || exit
     fi
 fi

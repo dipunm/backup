@@ -2,18 +2,6 @@
 
 . "$DIR_STORE/config"
 
-ask() {
-    read -r -p "$1" response
-    case "$response" in
-    [Nn][Oo]|[Nn])
-        return 1
-    ;;
-    *)
-        return 0
-    ;;
-    esac
-}
-
 read -r ZSH < "$DIR_STORE/ZSH"
 mkdir -p "$ZSH"
 cp -r "$DIR_STORE/omz/." "$ZSH"
@@ -21,12 +9,12 @@ cp -r "$DIR_STORE/home/." ~
 
 if ! which zsh >/dev/null; then
     echo "zsh is not installed."
-    [ "$auto_install" = "true" ] || ask "Install now? [Y/n]: " && sudo apt install zsh -y
+    [ "$auto_install" = "true" ] || ask.sh -y "Install now?" && sudo apt install zsh -y
 fi
 
 if [ $( basename "$SHELL" ) != "zsh" ]; then
     echo "zsh is not the default shell."
-    [ "$auto_change_shell" = "true" ] || ask "Set zsh as your default shell? [Y/n]: " && \
+    [ "$auto_change_shell" = "true" ] || ask.sh -y "Set zsh as your default shell?" && \
     echo "Changing shell to zsh" && ( chsh -s $(which zsh) || \
     echo "chsh failed. Try again by executing the following command:"$'\n'"chsh -s \$(which zsh)" )
 fi
