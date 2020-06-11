@@ -4,7 +4,7 @@ which gdebi > /dev/null || ( sudo apt update && sudo apt install gdebi-core )
 
 . "$DIR_STORE/debs.conf"
 
-LOCALDEBS=( $( find "$DIR_STORE" -type f -name "*.deb" ) )
+LOCALDEBS=( $( find "$DIR_STORE" -type f -name "*.deb" | tr ' ' '\n' | sort | uniq -u ) )
 allDebs=( $( echo "${SOURCES[@]} ${LOCALDEBS[@]}" )  )
 
 echo $'\n'"The following packages will be installed:"

@@ -6,7 +6,7 @@ assert_no_sudo() {
   exit 1
 }; assert_no_sudo;
 
-BACKUP_USR_ROOT="${BACKUP_USR_ROOT:-"$HOME/.backup"}"
+export BACKUP_USR_ROOT="${BACKUP_USR_ROOT:-"$HOME/.backup"}"
 
 . "$BACKUP_USR_ROOT/src/lib/fs.sh"
 import lib/assert lib/io lib/parse lib/info
