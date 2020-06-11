@@ -36,6 +36,7 @@ copy_files() {
     cp -r "$SOURCE/src" "$BACKUP_USR_ROOT"
     cp "$SOURCE/README.md" "$BACKUP_USR_ROOT"
     cp "$SOURCE/upgrade.sh" "$BACKUP_USR_ROOT"
+    cp "$SOURCE/devupgrade.sh" "$BACKUP_USR_ROOT"
     cp "$SOURCE/installer.sh" "$BACKUP_USR_ROOT"
     cp "$SOURCE/LICENSE" "$BACKUP_USR_ROOT"
 }
