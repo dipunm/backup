@@ -33,6 +33,7 @@ copy_files() {
     cp -n "$SOURCE/configs/main.conf" "$BACKUP_USR_ROOT/configs"
     cp "$SOURCE/configs/main.example.conf" "$BACKUP_USR_ROOT/configs"
 
+    rm -rf "$BACKUP_USR_ROOT/src"
     cp -pr "$SOURCE/src" "$BACKUP_USR_ROOT"
     cp -p "$SOURCE/README.md" "$BACKUP_USR_ROOT"
     cp -p "$SOURCE/upgrade.sh" "$BACKUP_USR_ROOT"
