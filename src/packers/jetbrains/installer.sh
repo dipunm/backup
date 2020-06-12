@@ -49,16 +49,11 @@ echo "Latest stable version: $VERSION"
 INSTALL_DIR="/opt/$VERSION"
 
 # Check if latest version has been installed
-if [ -d "$INSTALL_DIR" ]; then
-   echo "Found an existing install directory: $INSTALL_DIR"
-   echo "$VERSION may have previously been installed."
-   while true; do
-       read -p "Would you like to reinstall? (Y/N) > " REPLY
-       case $REPLY in
-           [yY] ) echo "Reinstalling $VERSION..."; break;;
-           [nN] ) echo "Aborted install."; exit 0; break;;
-       esac
-   done
+if [ which "$IDE" >/dev/null || -d "$INSTALL_DIR" ]; then
+   [ -d "$INSTALL_DIR" ] && echo "Found an existing install directory: $INSTALL_DIR"
+   echo "$IDE may have previously been installed."
+   ask.sh "Would you like to reinstall $VERSION?" || { echo "Aborted install." && exit 0; }
+   echo "Reinstalling $VERSION...";
 fi
 
 # Set download directory

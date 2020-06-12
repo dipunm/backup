@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if ({ apt-mark showmanual; apt-mark showauto } | grep '^mongodb-org$'); then
+if ({ apt-mark showmanual; apt-mark showauto; } | grep '^mongodb-org$'); then
     echo "mongo already installed."
 else
     wget -qO - https://www.mongodb.org/static/pgp/server-4.2.asc | sudo apt-key add -
