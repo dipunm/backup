@@ -12,7 +12,7 @@ for package in "${REPACK[@]}"; do
 
     pushd "$outdir"
     echo "re-packing $package"
-    dpkg-repack $package
+    dpkg-repack.sh $package
     popd
 done
 

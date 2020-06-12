@@ -2,9 +2,9 @@
 
 latest_supported_lts_codename='bionic'
 
+# Remove older or incompatible packages
 sudo apt-get remove docker docker-engine docker.io containerd runc
-sudo apt-get update
-sudo apt-get install \
+apt-install.sh \
     apt-transport-https \
     ca-certificates \
     curl \
@@ -25,8 +25,7 @@ if ! docker_source_exists; then
     sudo echo "deb [arch=amd64] https://download.docker.com/linux/ubuntu $latest_supported_lts_codename stable" >> /etc/apt/sources.list.d/docker.list
 fi
 
-sudo apt update
-sudo apt install docker-ce docker-ce-cli containerd.io
+apt-install.sh docker-ce docker-ce-cli containerd.io
 
 sudo usermod -aG docker $USER
 

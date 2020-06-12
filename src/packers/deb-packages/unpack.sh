@@ -1,7 +1,5 @@
 #!/bin/bash
 
-which gdebi > /dev/null || ( sudo apt update && sudo apt install gdebi-core )
-
 . "$DIR_STORE/debs.conf"
 
 LOCALDEBS=( $( find "$DIR_STORE" -type f -name "*.deb" | tr ' ' '\n' | sort | uniq -u ) )
@@ -18,13 +16,12 @@ pause.sh
 for deb in "${SOURCES[@]}"
 do
     if [[ "$deb" =~ "^https?:\/\/" ]]; then
-        wget -qO- "$deb" > "$DIR_TMP/tmp.deb"
-        sudo gdebi "$DIR_TMP/tmp.deb"
+        wget -qO- "$deb" > "$DIR_TMP/tmp.deb" || exit
+        gdebi.sh "$DIR_TMP/tmp.deb" || exit
     fi
 done
 
 for deb in "${LOCALDEBS[@]}"
 do
-    echo "installing $(basename "$deb")"
-    sudo gdebi "$deb"
+    gdebi.sh "$deb" || exit
 done

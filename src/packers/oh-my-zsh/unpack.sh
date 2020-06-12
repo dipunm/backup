@@ -9,7 +9,7 @@ cp -r "$DIR_STORE/home/." ~
 
 if ! which zsh >/dev/null; then
     echo "zsh is not installed."
-    [ "$auto_install" = "true" ] || ask.sh -y "Install now?" && sudo apt install zsh -y
+    [ "$auto_install" = "true" ] || ask.sh -y "Install now?" && apt-install.sh zsh
 fi
 
 if [ $( basename "$SHELL" ) != "zsh" ]; then

@@ -1,5 +1,4 @@
 #!/bin/bash
 
-cp $DIR_STORE/apt-clone.tar.gz $HOME
-sudo apt update
-sudo apt install apt-clone -y
+cp $DIR_STORE/apt-clone.tar.gz $HOME && \
+apt-install.sh apt-clone

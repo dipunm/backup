@@ -1,5 +1,6 @@
 #!/bin/bash
 
+sudo apt update
 # already installed packages
 installed=( $( apt-mark showmanual ) $( apt-mark showauto ) )
 # packages to restore
@@ -12,7 +13,6 @@ new=( $( echo "${existing[@]} ${packages[@]}" | tr ' ' '\n' | sort | uniq -u ) )
 if [ "${#new[@]}" = "0" ]; then
     exit 0;
 fi
-sudo apt update
 
 # wanted packages that are available to install
 available=( $( { apt-cache pkgnames && echo "${new[@]}" | tr ' ' '\n'; } | sort | uniq -d ) )
@@ -43,4 +43,4 @@ case "$response" in
     ;;
 esac
 
-sudo apt install "${pkgs[@]}" -y
+apt-install.sh "${pkgs[@]}" -y

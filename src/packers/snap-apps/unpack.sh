@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if ! which snap >/dev/null; then
-    sudo apt-get install snapd || exit
+    apt-install.sh snapd || exit
 fi
 
 if [ -f "$DIR_STORE/snap.list" ]; then

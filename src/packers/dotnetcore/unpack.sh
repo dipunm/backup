@@ -4,8 +4,7 @@ to_install=( $( cat "$DIR_STORE/installed" ) )
 if ! which dotnet >/dev/null; then
     wget "$src" -O "$DIR_TMP/packages-microsoft-prod.deb"
     sudo dpkg -i "$DIR_TMP/packages-microsoft-prod.deb"
-    sudo apt-get update
-    sudo apt-get install apt-transport-https -y
+    apt-install.sh apt-transport-https
     sudo apt-get update
 fi
 
@@ -25,4 +24,4 @@ fi
 
 echo "The following package will be installed: ${available[@]}"
 pause.sh
-sudo apt-get install "${available[@]}" -y
+apt-install.sh "${available[@]}"

@@ -19,21 +19,16 @@ FILE=$(get_deb_url jstaf/onedriver)
 if ! which onedriver >/dev/null; then
 
     if which curl >/dev/null; then
-        curl -L -o- $FILE > $DIR_TMP/onedriver_amd64.deb
+        curl -L -o- $FILE > $DIR_TMP/onedriver_amd64.deb || exit
     elif which wget >/dev/null; then
-        wget -qO- $FILE > $DIR_TMP/onedriver_amd64.deb
+        wget -qO- $FILE > $DIR_TMP/onedriver_amd64.deb || exit
     else
-        >&2 echo $'ERROR: Unable to download onedriver, please install curl or wget and then run:\n\n    backup restore --retry onedriver\n' 
-        return
+        >&2 echo $'ERROR: Unable to download onedriver, please install curl or wget and then run:\n\n    backup restore <file> -p onedriver\n' 
+        exit 1
     fi
 
-    if ! (which gdebi>dev/null) then
-        echo "installing gdebi to enable installing deb files."
-        sudo apt install gdebi-core
-    fi
-
-    sudo apt install libwebkit2gtk-4.0-dev
-    sudo gdebi $DIR_TMP/onedriver_amd64.deb
+    apt-install.sh libwebkit2gtk-4.0-dev || exit
+    gdebi.sh "$DIR_TMP/onedriver_amd64.deb" || exit
 
 fi
 
@@ -45,11 +40,11 @@ mkdir -p ~/.cache
 cp -r "$DIR_STORE/.cache/onedriver" ~/.cache
 
 # mount onedrive
-systemctl --user daemon-reload
-systemctl --user start $SERVICE_NAME
+systemctl --user daemon-reload || exit
+systemctl --user start $SERVICE_NAME || exit
 
 # mount onedrive on login
-systemctl --user enable $SERVICE_NAME
+systemctl --user enable $SERVICE_NAME || exit
 
 # check onedriver's logs
 echo "To diagnose any issues, you can check the logs by running the following command:
