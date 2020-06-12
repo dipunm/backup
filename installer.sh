@@ -67,7 +67,7 @@ if [ ! -L ~/.local/bin/mbkp ]; then
     rm -rf ~/.local/bin/mbkp;
     mkdir -p ~/.local/bin
     echo "Installing the mbkp executable in ~/.local/bin"
-    sudo ln -sf "$BACKUP_USR_ROOT/src/main.sh" ~/.local/bin/mbkp && \
+    ln -sf "$BACKUP_USR_ROOT/src/main.sh" ~/.local/bin/mbkp && \
     echo "==> Congrats! You should now be able to use the mbkp command." || exit 1
 else
     echo "
