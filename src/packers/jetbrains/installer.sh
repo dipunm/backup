@@ -56,7 +56,7 @@ if [ -d "$INSTALL_DIR" ]; then
        read -p "Would you like to reinstall? (Y/N) > " REPLY
        case $REPLY in
            [yY] ) echo "Reinstalling $VERSION..."; break;;
-           [nN] ) echo "Aborted install."; exit 1; break;;
+           [nN] ) echo "Aborted install."; exit 0; break;;
        esac
    done
 fi
