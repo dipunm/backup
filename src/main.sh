@@ -164,7 +164,7 @@ backup() {
     echo $'\n'"creating archive"
 	echo "output: $DIR_OUTPUT/backup_$hash.tar.gz"
 
-    tar -czf "$DIR_OUTPUT/backup_$hash.tar.gz" -C "$DIR_TMP_CONTAINER" "parcels" "order" >/dev/null
+    tar -czf "$DIR_OUTPUT/backup_$hash.tar.gz" -C "$DIR_TMP_CONTAINER" "parcels" "order" "shared" >/dev/null
     echo "backup complete."
 }
 
